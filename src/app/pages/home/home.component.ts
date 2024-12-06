@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BigCardComponent } from '../../components/big-card/big-card.component';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -9,6 +9,16 @@ import { FooterComponent } from '../../components/footer/footer.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent{
+ 
+  
+  @Input()
+  photoCover: string = 'src/assets/photograph/Eclipse.jpeg';
+  @Input()
+  cardTitle: string = '';
+  @Input()
+  cardDescription: string = '';
+
+  private id: string = "1"
 
 }
