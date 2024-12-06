@@ -3,93 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Agendamento de Salas</title>
+    <title>Reserva de Sala - Ceneged</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Sistema de Agendamento de Salas</h1>
+    <header class="navbar">
+        <div class="logo">Ceneged</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#" class="config">Configurações</a>
+        </nav>
     </header>
-
-    <main>
-        <section class="salas">
-            <h2>Salas Disponíveis</h2>
-            
-            <div class="cards-container">
-                <div class="card">
-                    <img src="sala1.jpg" >
-                    <h3>Sala Pôr do Sol</h3>
-                    <p>Capacidade: 20 pessoas</p>
-                    <button class="agnd" type="button" onclick="agendarSala('sala1')">Agendar</button>
+    <main class="content">
+        <h1>Reserva de sala</h1>
+        <p class="subtitle">Escolha entre as salas abaixo</p>
+        <section class="cards">
+            <article class="card">
+                <img src="../assets/Eclipse.jpeg" alt="Sala Eclipse">
+                <div class="card-content">
+                    <h2>Eclipse</h2>
+                    <p>Capacidade: 5 pessoas.</p>
+                    <button class="btn-reservar">Reservar</button>
                 </div>
-                <div class="card">
-                    <img src="sala2.jpg" >
-                    <h3>Sala Eclipse</h3>
-                    <p>Capacidade: 10 pessoas</p>
+            </article>
+            <article class="card">
+                <img src="../assets/pôr_do_sol.jpeg" alt="Sala pôr_do_sol">
+                <div class="card-content">
+                    <h2>Pôr do Sol</h2>
+                    <p>Capacidade: 5 pessoas.</p>
+                    <button class="btn-reservar">Reservar</button>
                 </div>
-                <div class="card">
-                    <img src="sala3.jpg" >
-                    <h3>Sala Inovação</h3>
-                    <p>Capacidade: 30 pessoas</p>
+            </article>
+            <article class="card">
+                <img src="..\assets\beira-mar.jpeg" alt="Sala pôr_do_sol">
+                <div class="card-content">
+                    <h2>Beira-mar</h2>
+                    <p>Capacidade: 5 pessoas.</p>
+                    <button class="btn-reservar">Reservar</button>
                 </div>
-            </div>
-            <div class="cards-container">
-                <div class="card">
-                    <img src="sala1.jpg" >
-                    <h3>Sala Beira Mar</h3>
-                    <p>Capacidade: 20 pessoas</p>
+            </article>
+            <article class="card">
+                <img src="../assets/energia_positiva.jpeg" alt="Sala pôr_do_sol">
+                <div class="card-content">
+                    <h2>Energia positiva</h2>
+                    <p>Capacidade: 5 pessoas.</p>
+                    <button class="btn-reservar">Reservar</button>
                 </div>
-                <div class="card">
-                    <img src="sala2.jpg" >
-                    <h3>Auditorio Energia Positiva</h3>
-                    <p>Capacidade: 10 pessoas</p>
+            </article>
+            <article class="card">
+                <img src="..\assets\inovar.jpg" alt="Sala pôr_do_sol">
+                <div class="card-content">
+                    <h2>Inovar</h2>
+                    <p>Capacidade: 5 pessoas.</p>
+                    <button class="btn-reservar">Reservar</button>
                 </div>
-                <div class="card">
-                    <img src="sala3.jpg" >
-                    <h3>Sala de Treinamento</h3>
-                    <p>Capacidade: 30 pessoas</p>
-                </div>
-            </div>
-            
-        
-        </section>
-<!--
-        <section class="agendamento">
-            <h2>Agendamento Online</h2>
-            <form id="form-agendamento">
-                <label for="sala">Sala:</label>
-                <select id="sala" name="sala">
-                    <option value="sala1">Sala 1</option>
-                    <option value="sala2">Sala 2</option>
-                    <option value="sala3">Sala 3</option>
-                </select>
-
-                <label for="data">Data:</label>
-                <input type="date" id="data" name="data" required>
-
-                <label for="horario-de">De:</label>
-                <input type="time" id="horario-de" name="horario-de" required>
-
-                <label for="horario-ate">Até:</label>
-                <input type="time" id="horario-ate" name="horario-ate" required>
-
-                <button type="submit">Agendar</button>
-            </form>
-        </section>
-
-    -->        
-
-        <section class="disponibilidade">
-            <h2>Visualização de Disponibilidade</h2>
-            <div id="calendario">
-                </div>
-        </section>
+            </article>
+        </section> 
     </main>
-
-    <footer>
-        <p>&copy; 2023 - Sistema de Agendamento de Salas</p>
-    </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>

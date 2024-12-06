@@ -1,107 +1,109 @@
-/* Estilos gerais */
+/* styles.css */
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #ffffff;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #212121;
 }
 
-main {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-section {
-    margin-bottom: 20px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.navbar nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #8ecccc;
+  font-weight: bold;
 }
 
-h2 {
-    color: #333;
+.navbar nav a.config {
+  background-color: #3a4042;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
 }
 
-/* Estilos dos cards */
-.cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.content h1 {
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: #8ecccc;
+  margin-bottom: 2rem;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin:auto;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .card {
-    width: calc(33.33% - 20px);
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow: hidden;
+  background-color: #212121;
+  border: 1px solid #3a4042;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 350px;
+  max-width: 800px;
 }
 
 .card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  max-height: 240px;
+  min-height: 200px;
+  height: auto;
 }
 
-.card h3 {
-    margin: 10px;
+.card-content {
+  padding: 1rem;
 }
 
-.card p {
-    margin: 0 10px 10px;
-    font-size: 0.9em;
-    color: #666;
+.card-content h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
 }
 
-/* Estilos do formulário */
-label {
-    display: block;
-    margin-bottom: 5px;
+.card-content p {
+  font-size: 0.9rem;
+  color: #cccccc;
 }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+.btn-reservar {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #8ecccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-button {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.btn-reservar:hover {
+  background-color: #50717b;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-    input, select {
-        width: 100%;
-    }
-
-    .card {
-        width: 100%;
-    }
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-}
-
-.agnd {
-    width: 100%;
+.btn-reservar:active {
+  background-color: #3a4042;
 }
