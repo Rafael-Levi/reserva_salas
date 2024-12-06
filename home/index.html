@@ -16,14 +16,14 @@
     </header>
     <main class="content">
         <h1>Reserva de sala</h1>
-        <p class="subtitle">Escolha entre as salas abaixo</p>
+        <p class="date_time" id="dataAtual" onload="formatarDataAtual()"></p>
         <section class="cards">
             <article class="card">
                 <img src="../assets/Eclipse.jpeg" alt="Sala Eclipse">
                 <div class="card-content">
                     <h2>Eclipse</h2>
                     <p>Capacidade: 5 pessoas.</p>
-                    <button class="btn-reservar">Reservar</button>
+                    <button class="btn-reservar" onclick="openPopup()">Reservar</button>
                 </div>
             </article>
             <article class="card">
@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <h2>Pôr do Sol</h2>
                     <p>Capacidade: 5 pessoas.</p>
-                    <button class="btn-reservar">Reservar</button>
+                    <button class="btn-reservar" onclick="openPopup()">Reservar</button>
                 </div>
             </article>
             <article class="card">
@@ -39,7 +39,7 @@
                 <div class="card-content">
                     <h2>Beira-mar</h2>
                     <p>Capacidade: 5 pessoas.</p>
-                    <button class="btn-reservar">Reservar</button>
+                    <button class="btn-reservar" onclick="openPopup()">Reservar</button>
                 </div>
             </article>
             <article class="card">
@@ -47,7 +47,7 @@
                 <div class="card-content">
                     <h2>Energia positiva</h2>
                     <p>Capacidade: 5 pessoas.</p>
-                    <button class="btn-reservar">Reservar</button>
+                    <button class="btn-reservar" onclick="openPopup()">Reservar</button>
                 </div>
             </article>
             <article class="card">
@@ -55,10 +55,27 @@
                 <div class="card-content">
                     <h2>Inovar</h2>
                     <p>Capacidade: 5 pessoas.</p>
-                    <button class="btn-reservar">Reservar</button>
+                    <button class="btn-reservar" onclick="openPopup()">Reservar</button>
                 </div>
             </article>
-        </section> 
+        </section>
+
     </main>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Cadastro de Reserva</h2>
+            <form>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" placeholder="Digite seu nome" required>
+                <label for="email">Matrícula:</label>
+                <input type="email" id="email" placeholder="Digite sua matrícula" required>
+                <button type="submit" class="btn-submit">Confirmar Reserva</button>
+                <button type="button" class="btn-close" onclick="closePopup()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

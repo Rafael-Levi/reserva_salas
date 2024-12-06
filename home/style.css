@@ -3,7 +3,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #121212;
-  color: #ffffff;
+  color: #ffffffcb;
 }
 
 .navbar {
@@ -91,8 +91,9 @@ body {
   padding: 0.75rem;
   margin-top: 1rem;
   font-size: 1rem;
-  color: #ffffff;
+  color: #000000a2;
   background-color: #8ecccc;
+  font-weight:bolder;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -106,4 +107,79 @@ body {
 
 .btn-reservar:active {
   background-color: #3a4042;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  font: bolder;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #212121;
+  font-weight: bold;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffffbf;
+  width: 90%;
+  max-width: 400px;
+}
+
+.popup-content h2 {
+  margin-bottom: 1rem;
+}
+
+.popup-content form label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+
+.popup-content form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #8ecccc;
+  border-radius: 5px;
+  background-color: #3a4042;
+  color: #ffffff;
+}
+
+.btn-submit {
+  background-color: #8ecccc;
+  color: #000000b6;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 1rem;
+}
+
+.btn-submit:hover {
+  background-color: #50717b;
+}
+
+.btn-close {
+  background-color: #3a4042;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-close:hover {
+  background-color: #8ecccc;
 }
