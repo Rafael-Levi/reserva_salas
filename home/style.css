@@ -86,11 +86,6 @@ button {
     cursor: pointer;
 }
 
-/* Estilos do calendário (a serem definidos) */
-#calendario {
-    /* Estilos para o calendário interativo */
-}
-
 /* Responsividade */
 @media (max-width: 600px) {
     input, select {
