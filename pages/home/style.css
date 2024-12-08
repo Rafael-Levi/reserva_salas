@@ -5,7 +5,11 @@ body {
   background-color: #121212;
   color: #ffffffcb;
 }
-
+nav{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -19,18 +23,23 @@ body {
   font-weight: bold;
 }
 
-.navbar nav a {
-  margin: 0 1rem;
-  text-decoration: none;
-  color: #8ecccc;
-  font-weight: bold;
+.navbar nav button {
+  display: block;
+  width: 100%;
+  padding: 0.50rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #000000a2;
+  background-color: #8ecccc;
+  font-weight: bolder;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s
 }
 
-.navbar nav a.config {
-  background-color: #3a4042;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-}
+
 .calendar-container {
   width: 90%;
   margin:auto;

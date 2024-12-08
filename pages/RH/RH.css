@@ -1,0 +1,245 @@
+/* styles.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #ffffffcb;
+}
+nav{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #212121;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar nav a {
+  display: block;
+  width: 100%;
+  padding: 0.50rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #000000a2;
+  text-decoration: none;
+  background-color: #8ecccc;
+  font-weight: bolder;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s
+  
+}
+
+
+.calendar-container {
+  width: 90%;
+  margin:auto;
+  margin-top: 2rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 10px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.calendar {
+  display: flex; /* Exibe os itens em linha */
+  justify-content: space-between; /* Distribui espaço entre os itens */
+  padding: 10px;
+  gap: 5px;
+}
+
+.calendar div {
+  text-align: center;
+  flex: 1; /* Garante que cada dia ocupe o mesmo espaço */
+  padding: 10px 0;
+  border-radius: 4px;
+  background-color: #2e2e2e;
+}
+
+.calendar div span {
+  display: block;
+}
+#days{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.calendar div .day {
+  font-weight: bold;
+  color: #d1d1d1;
+}
+
+.calendar div .date {
+  color: #4a90e2;
+}
+
+.calendar div:hover {
+  background-color: #3a3a3a;
+  cursor: pointer;
+}
+
+
+
+.content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.content h1 {
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: #8ecccc;
+  margin-bottom: 2rem;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin:auto;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #212121;
+  border: 1px solid #3a4042;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 350px;
+  max-width: 800px;
+}
+
+.card img {
+  width: 100%;
+  max-height: 240px;
+  min-height: 200px;
+  height: auto;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-content h2 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: #cccccc;
+}
+
+.btn-reservar {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #000000a2;
+  background-color: #8ecccc;
+  font-weight:bolder;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reservar:hover {
+  background-color: #50717b;
+}
+
+.btn-reservar:active {
+  background-color: #3a4042;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  font: bolder;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #212121;
+  font-weight: bold;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffffbf;
+  width: 90%;
+  max-width: 400px;
+}
+
+.popup-content h2 {
+  margin-bottom: 1rem;
+}
+
+.popup-content form label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+
+.popup-content form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #8ecccc;
+  border-radius: 5px;
+  background-color: #3a4042;
+  color: #ffffff;
+}
+
+.btn-submit {
+  background-color: #8ecccc;
+  color: #000000b6;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 1rem;
+}
+
+.btn-submit:hover {
+  background-color: #50717b;
+}
+
+.btn-close {
+  background-color: #3a4042;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-close:hover {
+  background-color: #8ecccc;
+}
