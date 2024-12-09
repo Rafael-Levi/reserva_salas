@@ -88,8 +88,6 @@ nav{
   cursor: pointer;
 }
 
-
-
 .content {
   text-align: center;
   padding: 2rem;
@@ -99,73 +97,127 @@ nav{
   font-size: 2rem;
 }
 
-.subtitle {
-  color: #8ecccc;
-  margin-bottom: 2rem;
-}
-
-.cards {
-  display: flex;
-  justify-content: center;
-  width: 70%;
-  margin:auto;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
 .card {
+  display: flex;
   background-color: #212121;
-  border: 1px solid #3a4042;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 70%;
   overflow: hidden;
-  width: 350px;
-  max-width: 800px;
+  margin:auto;
+  margin-top: 2rem;
 }
 
-.card img {
-  width: 100%;
-  max-height: 240px;
-  min-height: 200px;
+.card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.card-image {
+  width: 400px;
   height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.card-content {
-  padding: 1rem;
+.card-title {
+  font-size: 24px;
+  
 }
 
-.card-content h2 {
-  font-size: 1.2rem;
-  margin: 0 0 0.5rem;
+.card-description {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #bbb;
 }
 
-.card-content p {
-  font-size: 0.9rem;
-  color: #cccccc;
-}
-
-.btn-reservar {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  font-size: 1rem;
-  color: #000000a2;
-  background-color: #8ecccc;
-  font-weight:bolder;
+.reserve-button {
+  background-color: #50717b;
+  color: white;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-.btn-reservar:hover {
+.reserve-button:hover {
+  background-color: #8ecccc;
+}
+
+.card-right {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  width: -webkit-fill-available;
+  height: 400px;
+}
+
+.time-slot {
+  background-color: #333;
+  color: white;
+  padding:1rem;
+  height: 3rem;
+  width: 9rem;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #50717b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.time-slot-perso{
+  background-color: #333;
+  color: white;
+  padding:1rem;
+  height: 3rem;
+  width: 9rem;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #50717b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.div-per{
+  grid-column: span 3; /* Ocupa toda a largura */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Espaço entre os horários e o botão */
+  
+}
+.time-slot-perso{
+   
+  width: 100%;
+  
+}
+
+.time-slot:hover {
   background-color: #50717b;
 }
 
-.btn-reservar:active {
-  background-color: #3a4042;
-}
+
 
 .popup {
   display: none;

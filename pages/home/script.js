@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-  
+
 function generateWeek() {
   const daysElement = document.getElementById("days");
   const today = new Date();
@@ -39,10 +39,10 @@ function generateWeek() {
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - currentDayIndex + (currentDayIndex === 0 ? -6 : 1));
 
-  const weekDays = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
+  const weekDays = ["","SEG", "TER", "QUA", "QUI","SEX"];
   let daysHTML = "";
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 5; i++) {
     const currentDate = new Date(startOfWeek);
     currentDate.setDate(startOfWeek.getDate() + i);
 
@@ -52,7 +52,7 @@ function generateWeek() {
 
     daysHTML += `
       <div>
-        <span class="day">${dayName}</span>
+        <span class="dia">${dayName}</span>
         <span class="date">${dayNumber.toString().padStart(2, "0")}/${monthNumber.toString().padStart(2, "0")}</span>
       </div>
     `;
@@ -92,16 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Por favor, preencha todos os campos.");
     }
   });
-});
-
-const formAgendamento = document.getElementById('form-agendamento');
-formAgendamento.addEventListener('submit', (event) => {
-    event.preventDefault(); // Previne o envio padrão do formulário
-
-    // Lógica para processar o agendamento (ex: enviar dados para o servidor)
-
-    alert('Agendamento realizado com sucesso!');
-    formAgendamento.reset(); // Limpa o formulário
 });
 
 function openPopup() {
