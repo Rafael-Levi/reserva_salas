@@ -126,11 +126,12 @@ nav{
 
 .card-title {
   font-size: 24px;
+  margin: 0%;
   
 }
 
 .card-description {
-  font-size: 14px;
+  font-size: 18px;
   margin-bottom: 20px;
   color: #bbb;
 }
@@ -178,6 +179,13 @@ nav{
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
+.time-slot.reserved {
+  background-color: #ff6f61;
+  color: white;
+  cursor: not-allowed;
+}
+
 .time-slot-perso{
   background-color: #333;
   color: white;
@@ -213,9 +221,7 @@ nav{
   
 }
 
-.time-slot:hover {
-  background-color: #50717b;
-}
+
 
 
 

@@ -1,195 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="..\..\assets\icons\logoColoridaCeneged.jpg" type="image/x-icon">
-    <title>Reserva de Sala - Ceneged</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/icons/logoColoridaCeneged.jpg" type="image/x-icon">
+  <title>Reserva de Sala - Ceneged</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <header class="navbar">
-        <img src="../../assets/icons/logo.png" width="70rem" class="logo"></img>
-        <nav>
-            <button id="rh-button">RH</button>
-            <button id="cfg-button" class="config">Configurador</button>
-        </nav>
-    </header>
+  <header class="navbar">
+    <img src="assets/icons/logo.png" width="70rem" class="logo"></img>
+    <nav>
+      <button id="rh-button">RH</button>
+      <button id="cfg-button" class="config">Configurador</button>
+    </nav>
+  </header>
 
-    <section class="calendar-container">
-        <div class="calendar">
-          <div id="days"></div>
+  <section class="calendar-container">
+    <div class="calendar">
+      <div id="days"></div>
+    </div>
+  </section>
+
+  <main class="content">
+    <h1>Reserva de sala</h1>
+    <section class="cards" id="sala-cards-container">
+      <!-- <div class="card">
+        <div class="card-left">
+          <img src="assets/foto_salas/Eclipse.jpeg" alt="Eclipse" class="card-image">
+          <h3 class="card-title">Eclipse</h3>
+          <p class="card-description">
+            Capacidade: 5 Pessoas
+          </p>
         </div>
+        <div class="card-right">
+          <button class="time-slot" data-time="08:00">08:00 - 9:00</button>
+          <button class="time-slot" data-time="09:00">09:00 - 10:00</button>
+          <button class="time-slot" data-time="10:00">10:00 - 11:00</button>
+          <button class="time-slot" data-time="11:00">11:00 - 12:00</button>
+          <button class="time-slot" data-time="13:00">13:00 - 14:00</button>
+          <button class="time-slot" data-time="14:00">14:00 - 15:00</button>
+          <button class="time-slot" data-time="15:00">15:00 - 16:00</button>
+          <button class="time-slot" data-time="16:00">16:00 - 17:00</button>
+          <button class="time-slot" data-time="17:00">17:00 - 18:00</button>
+          <div class="div-per">
+            <button class="time-slot-perso">Personalizar</button>
+          </div>
+        </div>
+      </div> -->
     </section>
+  </main>
 
-    <main class="content">
-        <h1>Reserva de sala</h1>
-
-        <section class="cards">
-            
-                <div class="card">
-                    <div class="card-left">
-                      <img src="../../assets/foto_salas/Eclipse.jpeg" alt="Eclipse" class="card-image">
-                      <h3 class="card-title">Eclipse</h3>
-                      <p class="card-description">
-                        Capacidade para cinco pessaos
-                      </p>
-                    </div>
-                    <div class="card-right">
-                      <button class="time-slot">8:00 - 9:00</button>
-                      <button class="time-slot">9:00 - 10:00</button>
-                      <button class="time-slot">10:00 - 11:00</button>
-                      <button class="time-slot">11:00 - 12:00</button>
-                      <button class="time-slot">13:00 - 14:00</button>
-                      <button class="time-slot">14:00 - 15:00</button>
-                      <button class="time-slot">15:00 - 16:00</button>
-                      <button class="time-slot">16:00 - 17:00</button>
-                      <button class="time-slot">17:00 - 18:00</button>
-                        <div class="div-per" >
-                            <button class="time-slot-perso">Personalizar</button>
-                        </div>
-
-                    </div>
-                    
-                    
-                </div>
-
-                <div class="card">
-                    <div class="card-left">
-                      <img src="../../assets/foto_salas/beira-mar.jpeg" alt="beira-mar" class="card-image">
-                      <h3 class="card-title">Beira-mar</h3>
-                      <p class="card-description">
-                        Capacidade para cinco pessaos
-                      </p>
-                      <button class="reserve-button">Reservar</button>
-                    </div>
-                    <div class="card-right">
-                        <button class="time-slot">8:00 - 9:00</button>
-                        <button class="time-slot">9:00 - 10:00</button>
-                        <button class="time-slot">10:00 - 11:00</button>
-                        <button class="time-slot">11:00 - 12:00</button>
-                        <button class="time-slot">13:00 - 14:00</button>
-                        <button class="time-slot">14:00 - 15:00</button>
-                        <button class="time-slot">15:00 - 16:00</button>
-                        <button class="time-slot">16:00 - 17:00</button>
-                        <button class="time-slot">17:00 - 18:00</button>
-                    </div>
-                  </div>
-            
-           
-                <div class="card">
-                    <div class="card-left">
-                      <img src="../../assets/foto_salas/pôr_do_sol.jpeg" alt="Pôr do sol" class="card-image">
-                      <h3 class="card-title">Pôr do sol</h3>
-                      <p class="card-description">
-                        Capacidade para cinco pessaos
-                      </p>
-                      <button class="reserve-button">Reservar</button>
-                    </div>
-                    <div class="card-right">
-                        <button class="time-slot">8:00 - 9:00</button>
-                        <button class="time-slot">9:00 - 10:00</button>
-                        <button class="time-slot">10:00 - 11:00</button>
-                        <button class="time-slot">11:00 - 12:00</button>
-                        <button class="time-slot">13:00 - 14:00</button>
-                        <button class="time-slot">14:00 - 15:00</button>
-                        <button class="time-slot">15:00 - 16:00</button>
-                        <button class="time-slot">16:00 - 17:00</button>
-                        <button class="time-slot">17:00 - 18:00</button>
-                    </div>
-                  </div>
-           
-                <div class="card">
-                    <div class="card-left">
-                      <img src="../../assets/foto_salas/energia_positiva.jpeg" alt="energia_positiva" class="card-image">
-                      <h3 class="card-title">Energia positiva</h3>
-                      <p class="card-description">
-                        Capacidade para cinco pessaos
-                      </p>
-                      <button class="reserve-button">Reservar</button>
-                    </div>
-                    <div class="card-right">
-                        <button class="time-slot">8:00 - 9:00</button>
-                        <button class="time-slot">9:00 - 10:00</button>
-                        <button class="time-slot">10:00 - 11:00</button>
-                        <button class="time-slot">11:00 - 12:00</button>
-                        <button class="time-slot">13:00 - 14:00</button>
-                        <button class="time-slot">14:00 - 15:00</button>
-                        <button class="time-slot">15:00 - 16:00</button>
-                        <button class="time-slot">16:00 - 17:00</button>
-                        <button class="time-slot">17:00 - 18:00</button>
-                    </div>
-                  </div>
-    
-                <div class="card">
-                    <div class="card-left">
-                      <img src="../../assets/foto_salas/inovar.jpg" alt="inovar" class="card-image">
-                      <h3 class="card-title">Inovar</h3>
-                      <p class="card-description">
-                        Capacidade para cinco pessaos
-                      </p>
-                      <button class="reserve-button">Reservar</button>
-                    </div>
-                    <div class="card-right">
-                        <button class="time-slot">8:00 - 9:00</button>
-                        <button class="time-slot">9:00 - 10:00</button>
-                        <button class="time-slot">10:00 - 11:00</button>
-                        <button class="time-slot">11:00 - 12:00</button>
-                        <button class="time-slot">13:00 - 14:00</button>
-                        <button class="time-slot">14:00 - 15:00</button>
-                        <button class="time-slot">15:00 - 16:00</button>
-                        <button class="time-slot">16:00 - 17:00</button>
-                        <button class="time-slot">17:00 - 18:00</button>
-                    </div>
-                  </div>
-        </section>
-
-
-  
-    </main>
-    
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <h2>Cadastro de Reserva</h2>
-            <form>
-                <label for="name">Nome</label>
-                <input type="text" id="name" placeholder="Digite seu nome" required>
-                <label for="matrícula">Matrícula</label>
-                <input type="email" id="email" placeholder="Digite sua matrícula" required>
-                <button type="submit" class="btn-submit">Confirmar Reserva</button>
-                <button type="button" class="btn-close" onclick="closePopup()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="popup-rh" class="popup">
-        <div class="popup-content">
-            <h2>Salas RH</h2>
-            <form id="registration-form-rh">
-                <label for="mat-rh">Matricula</label>
-                <input type="text" id="mat-rh" placeholder="Matrícula" required>
-                <label for="senha">Senha</label>
-                <input type="text" id="senha-rh" placeholder="Senha" required>
-                <button type="submit" id="registration-form-rh" class="btn-submit">Entrar</button>
-                <button type="button" class="btn-close" id="close-popup-rh">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="popup-cfg" class="popup">
-        <div class="popup-content">
-            <h2>Configurador</h2>
-            <form id="registration">
-                <label for="mat-cfg">Matricula</label>
-                <input type="text" id="mat-cfg" placeholder="Matrícula" required>
-                <label for="senha-cfg">Senha</label>
-                <input type="text" id="senha-cfg" placeholder="Senha" required>
-                <button type="submit" id="registration" class="btn-submit">Entrar</button>
-                <button type="button" class="btn-close" id="close-popup-cfg">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
