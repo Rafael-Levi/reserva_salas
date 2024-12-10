@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="assets/icons/logoColoridaCeneged.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="../assets/icons/logoColoridaCeneged.jpg" type="image/x-icon">
   <title>Reserva de Sala - Ceneged</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <header class="navbar">
-    <img src="assets/icons/logo.png" width="70rem" class="logo"></img>
+    <img src="../assets/icons/logo.png" width="70rem" class="logo"></img>
     <nav>
       <button id="rh-button">RH</button>
       <button id="cfg-button" class="config">Configurador</button>
@@ -51,6 +51,49 @@
         </div>
       </div> -->
     </section>
+
+    <div id="popup" class="popup">
+      <div class="popup-content">
+          <h2>Cadastro de Reserva</h2>
+          <form>
+              <label for="name">Nome</label>
+              <input type="text" id="name" placeholder="Digite seu nome" required>
+              <label for="matrícula">Matrícula</label>
+              <input type="email" id="email" placeholder="Digite sua matrícula" required>
+              <button type="submit" class="btn-submit">Confirmar Reserva</button>
+              <button type="button" class="btn-close" onclick="closePopup()">Cancelar</button>
+          </form>
+      </div>
+    </div>
+
+
+    <div id="popup-rh" class="popup">
+      <div class="popup-content">
+          <h2>Salas RH</h2>
+          <form id="registration-form-rh">
+              <label for="mat-rh">Matricula</label>
+              <input type="text" id="mat-rh" placeholder="Matrícula" required>
+              <label for="senha">Senha</label>
+              <input type="text" id="senha-rh" placeholder="Senha" required>
+              <button type="submit" id="registration-form-rh" class="btn-submit">Entrar</button>
+              <button type="button" class="btn-close" id="close-popup-rh">Cancelar</button>
+          </form>
+      </div>
+    </div>
+
+    <div id="popup-cfg" class="popup">
+      <div class="popup-content">
+          <h2>Configurador</h2>
+          <form id="registration">
+              <label for="mat-cfg">Matricula</label>
+              <input type="text" id="mat-cfg" placeholder="Matrícula" required>
+              <label for="senha-cfg">Senha</label>
+              <input type="text" id="senha-cfg" placeholder="Senha" required>
+              <button type="submit" id="registration" class="btn-submit">Entrar</button>
+              <button type="button" class="btn-close" id="close-popup-cfg">Cancelar</button>
+          </form>
+      </div>
+    </div>      
   </main>
 
   <script src="script.js"></script>

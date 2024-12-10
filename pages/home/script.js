@@ -183,7 +183,7 @@ fetch(urlSalas)
 
       card.innerHTML = `
         <div class="card-left">
-          <img src="assets/foto_salas/Eclipse.jpeg" alt="${sala.nome}" class="card-image">
+          <img src="../assets/foto_salas/Eclipse.jpeg" alt="${sala.nome}" class="card-image">
           <h3 class="card-title">${sala.nome}</h3>
           <p class="card-description">
             Capacidade: ${sala.capacidade} Pessoas
