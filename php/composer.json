@@ -1,0 +1,17 @@
+{
+    "name": "rafae/reserva_salas",
+    "autoload": {
+        "psr-4": {
+            "Rafae\\ReservaSalas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rafael",
+            "email": "rafaellevi@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

@@ -27,7 +27,7 @@
   <main class="content">
     <h1>Reserva de sala</h1>
     <section class="cards" id="sala-cards-container">
-      <!-- <div class="card">
+      <div class="card">
         <div class="card-left">
           <img src="assets/foto_salas/Eclipse.jpeg" alt="Eclipse" class="card-image">
           <h3 class="card-title">Eclipse</h3>
@@ -49,7 +49,7 @@
             <button class="time-slot-perso">Personalizar</button>
           </div>
         </div>
-      </div> -->
+      </div> 
     </section>
 
     <div id="popup" class="popup">
@@ -66,12 +66,12 @@
       </div>
     </div>
 
-    <div class="popup-personalisar" onclick="openPopupPersonalisarHorario()">
-      <table>
+    <div id="popup-personalisar" onclick="openPopupPersonalisarHorario()">
+      <table class="popup-personalisar-content">
         <thead>
-            <tr>
-                <th>Horário de Início</th>
-                <th>Horário de Término</th>
+            <tr class="table-header">
+                <th class="table-header-l">Horário de Início</th>
+                <th class="table-header-r">Horário de Término</th>
             </tr>
         </thead>
         <tbody>
@@ -80,11 +80,11 @@
                 <td><input type="time"></td>
                 <td class="actions">
                     <button class="btn">Salvar</button>
-                    <button class="bnt-danger" onclick="closePopupPersonalisarHorario()">"Sair"</button>
+                    <button class="bnt-danger" onclick="closePopupPersonalisarHorario()">Sair</button>
                 </td>
             </tr>
         </tbody>
-    </table>
+      </table>
 
     </div>
 

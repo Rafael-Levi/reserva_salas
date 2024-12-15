@@ -210,7 +210,7 @@ fetch(urlSalas)
           <button class="time-slot" data-sala-id="${sala.id}" data-time="16:00">16:00 - 17:00</button>
           <button class="time-slot" data-sala-id="${sala.id}" data-time="17:00">17:00 - 18:00</button>
           <div class="div-per">
-            <button class="time-slot-perso">Personalizar</button>
+            <button class="time-slot-perso" onclick="openPopupPersonalisarHorario()">Personalizar</button>
           </div>
         </div>
       `;

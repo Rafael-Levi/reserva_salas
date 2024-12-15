@@ -8,3 +8,8 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+
+/vendor/
+/vendor/
+/.env
+composer.lock
