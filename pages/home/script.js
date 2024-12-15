@@ -114,6 +114,16 @@ function closePopup() {
     document.body.style.overflow = "auto"; 
 }
 
+function openPopupPersonalisarHorario() {
+  document.getElementById("popup-personalisar").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closePopupPersonalisarHorario() {
+  document.getElementById("popup-personalisar").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
 
 function fetchAndUpdateCards(selectedDate) {
   // Seleciona todos os cartões de sala

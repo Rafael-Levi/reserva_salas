@@ -1,5 +1,5 @@
-# IDEs and editors
 .idea/
+.env
 
 # Visual Studio Code
 .vscode/*

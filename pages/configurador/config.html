@@ -8,16 +8,58 @@
     <link rel="stylesheet" href="config.css">
 </head>
 <body>
-    <header class="navbar">
-        <img src="../../assets/icons/logo.png" width="70rem" class="logo"></img>
+    <header>
+        <h1>Configuração de Agendamento de Salas</h1>
         <nav>
-            <a href="../RH/RH.html">Home</a>
-            <a href="../home/index.html">RH</a>
+            <a href="#">Home</a>
+            <a href="#">Voltar</a>
+            <a href="#">Logout</a>
         </nav>
     </header>
-    <div class="content">
-        <h1>Configurador</h1>
+
+   <div class="container"> 
+ 
+
+        <section>
+            <h2>Reservas Atuais</h2>
+            <input type="text" placeholder="Buscar reservas...">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sala</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Reservado por</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sala 1</td>
+                        <td>2024-12-14</td>
+                        <td>14:00 - 16:00</td>
+                        <td>João Silva</td>
+                        <td class="actions">
+                            <button class="btn">Editar</button>
+                            <button class="btn-danger">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </div>
-    
+
+    <footer>
+        <p>Desenvolvido por <a href="#">Rafael Levi</a></p>
+    </footer>
+
+    <script>
+        // Placeholder for interactivity (e.g., salvar, excluir, buscar)
+        document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Confirma a exclusão?');
+            });
+        });
+    </script>
 </body>
 </html>
