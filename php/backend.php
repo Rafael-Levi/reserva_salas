@@ -1,18 +1,18 @@
 <?php
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/vendor/autoload.php'; // Carrega o autoloader do Composer
-use Dotenv\Dotenv;
+//require_once __DIR__ . '/vendor/autoload.php'; // Carrega o autoloader do Composer
+//use Dotenv\Dotenv;
 
 // Carrega as variáveis do arquivo .env
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+//$dotenv = Dotenv::createImmutable(__DIR__);
+//$dotenv->load();
 
 // Configuração do banco de dados usando as variáveis do .env
-$servername = $_ENV['DB_SERVERNAME'];
-$username = $_ENV['DB_USERNAME'];
-$password = $_ENV['DB_PASSWORD'];
-$dbname = $_ENV['DB_NAME'];
+$servername = "localhost"
+$username = "root"
+$password = ""
+$dbname = "agendamento_salas"
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

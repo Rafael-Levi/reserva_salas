@@ -1,8 +1,9 @@
 <?php
+require ('../config/database.php')
 
 class Sala
 {
-    private $conn;
+    private ;
 
     public function __construct($db)
     {
@@ -47,3 +48,4 @@ class Sala
         return $stmt->execute();
     }
 }
+?>

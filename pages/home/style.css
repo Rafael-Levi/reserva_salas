@@ -221,100 +221,73 @@ nav{
   
 }
 
-.popup-personalisar{
-  display:flex ;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  font: bolder;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.popup-personalisar-content{
-  background-color: #212121;
-  font-weight: bold;
-  padding: 2rem;
-  border-radius: 10px;
+/* Popup Container */
+#popup-personalisar {
+  display: none; /* Escondido inicialmente */
+  background-color: #333;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
   text-align: center;
-  color: #ffffffbf;
-  width: 90%;
-  max-width: 600px;
-
-
-}
-
-.table-header-r{
-  border-radius: 0.3rem;
-}
-
-.table-header-l{
-  border-radius: 0.3rem;
-  
-}
-
-table {
-
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  
-}
-
-table th, table td {
- 
-  padding: 10px;
-  
-}
-
-table th {
-  background-color: #8ecccc;
   color: #fff;
+  font-family: Arial, sans-serif;
 }
 
-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Cabeçalho da Tabela */
+.table-header th {
+  background-color: #73b2c6;
+  padding: 12px;
+  font-size: 1rem;
+  color: #ffffff;
+  border-radius: 5px;
 }
 
+/* Input de Tempo */
+.popup-personalisar-content input[type="time"] {
+  width: 80%;
+  padding: 10px;
+  margin: 15px;
+  font-size: 1rem;
+  border: 2px solid #73b2c6;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #fff;
+  color: #333;
+}
 
-.btn {
-  background-color: #8ecccc;
+/* Botões */
+.actions {
+  margin-top: 20px;
+}
+
+.btn, .bnt-danger {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  font-size: 1rem;
+  font-weight: 500;
   color: #fff;
   border: none;
-  padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
+}
+
+.btn {
+  background-color: #4a90e2;
+}
+
+.bnt-danger {
+  background-color: #e74c3c;
 }
 
 .btn:hover {
-  background-color: #50717b;
+  background-color: #357ab7;
 }
 
-.btn-danger {
-  background-color: #d9534f;
-}
-
-.btn-danger:hover {
-  background-color: #c9302c;
-}
-
-input, select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
+.bnt-danger:hover {
+  background-color: #c0392b;
 }
 
 

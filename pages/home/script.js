@@ -134,7 +134,7 @@ function fetchAndUpdateCards(selectedDate) {
     const salaId = card.querySelector(".time-slot").getAttribute("data-sala-id");
 
     // Endpoint para buscar os agendamentos com base na sala e na data selecionada
-    const url = `backend.php?endpoint=agendamentos&sala_id=${salaId}&data=${selectedDate}`;
+    const url = `../../app/php/app/router.php?endpoint=agendamentos&sala_id=${salaId}&data=${selectedDate}`;
 
     fetch(url)
       .then(response => response.json())
@@ -170,7 +170,7 @@ function fetchAndUpdateCards(selectedDate) {
 }
 
 
-const urlSalas = 'backend.php?endpoint=salas';
+const urlSalas = '../../php/app/router.php?endpoint=salas';
 
 fetch(urlSalas)
   .then(response => response.json())
@@ -192,13 +192,13 @@ fetch(urlSalas)
       card.className = "card";
 
       card.innerHTML = `
-        <div class="card-left">
+      <div class="card-left">
           <img src="../assets/foto_salas/Eclipse.jpeg" alt="${sala.nome}" class="card-image">
           <h3 class="card-title">${sala.nome}</h3>
           <p class="card-description">
             Capacidade: ${sala.capacidade} Pessoas
           </p>
-        </div>
+      </div>
         <div class="card-right">
           <button class="time-slot" data-sala-id="${sala.id}" data-time="08:00">08:00 - 09:00</button>
           <button class="time-slot" data-sala-id="${sala.id}" data-time="09:00">09:00 - 10:00</button>
@@ -211,8 +211,31 @@ fetch(urlSalas)
           <button class="time-slot" data-sala-id="${sala.id}" data-time="17:00">17:00 - 18:00</button>
           <div class="div-per">
             <button class="time-slot-perso" onclick="openPopupPersonalisarHorario()">Personalizar</button>
+            <div id="popup-personalisar" >
+              <table class="popup-personalisar-content">
+                <thead>
+                    <tr class="table-header">
+                        <th class="table-header-l">Horário de Início</th>
+                        <th class="table-header-r">Horário de Término</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="time"></td>
+                        <td><input type="time"></td>
+                        <td class="actions">
+                            <button class="btn">Salvar</button>
+                            <button class="bnt-danger" onclick="closePopupPersonalisarHorario()">Sair</button>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        
+            </div>
           </div>
+        </div> 
         </div>
+ 
       `;
 
       container.appendChild(card);
