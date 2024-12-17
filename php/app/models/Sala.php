@@ -1,9 +1,9 @@
 <?php
-require ('../config/database.php')
+require '../config/database.php'; // Corrected path
 
 class Sala
 {
-    private ;
+    private $conn;
 
     public function __construct($db)
     {

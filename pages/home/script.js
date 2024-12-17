@@ -117,13 +117,15 @@ function closePopup() {
 function openPopupPersonalisarHorario() {
   document.getElementById("popup-personalisar").style.display = "flex";
   document.body.style.overflow = "hidden";
+  document.querySelector(".time-slot-perso").style.display = "none"; // Esconde o botão
 }
+
 
 function closePopupPersonalisarHorario() {
   document.getElementById("popup-personalisar").style.display = "none";
   document.body.style.overflow = "auto";
+  document.querySelector(".time-slot-perso").style.display = "block"; // Mostra o botão novamente
 }
-
 
 function fetchAndUpdateCards(selectedDate) {
   // Seleciona todos os cartões de sala
@@ -134,7 +136,7 @@ function fetchAndUpdateCards(selectedDate) {
     const salaId = card.querySelector(".time-slot").getAttribute("data-sala-id");
 
     // Endpoint para buscar os agendamentos com base na sala e na data selecionada
-    const url = `../../app/php/app/router.php?endpoint=agendamentos&sala_id=${salaId}&data=${selectedDate}`;
+    const url = `../../php/app/router.php?endpoint=agendamentos&sala_id=${salaId}&data=${selectedDate}`;
 
     fetch(url)
       .then(response => response.json())
