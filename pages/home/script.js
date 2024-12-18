@@ -148,12 +148,26 @@ function fetchAndUpdateCards(selectedDate) {
 
         buttons.forEach(button => {
           // Obtém o horário do botão (exemplo: "08:00")
-          const buttonTime = button.getAttribute("data-time");
+          const buttonTimeIni = button.getAttribute("data-ini");
+          const buttonTimeFin = button.getAttribute("data-fin");
+         
 
           // Verifica se o horário está na lista de agendamentos
           const isReserved = agendamentos.some(
-            item => item.horario_inicio.substring(0, 5) === buttonTime
+            item => item.horario_inicio.substring(0, 5) === buttonTimeIni&&
+            item.horario_fim.substring(0, 5) === buttonTimeFin
+              
           );
+          const isPerso = agendamentos.some(
+            itemper => itemper.personalizado==1&&
+            itemper.horario_inicio.substring(0, 5) >=  buttonTimeIni&&
+            itemper.horario_fim.substring(0, 5) <= buttonTimeFin
+          )
+          console.log(isPerso)
+
+          if(isPerso){
+            console.log('oi')
+          }
 
           // Atualiza a classe e o estado do botão com base na reserva
           if (isReserved) {
@@ -177,6 +191,8 @@ const urlSalas = '../../php/app/router.php?endpoint=salas';
 fetch(urlSalas)
   .then(response => response.json())
   .then(salas => {
+    console.log("Salas recebidas:", salas);
+
     const container = document.getElementById("sala-cards-container");
 
     // Verifica se existem salas
@@ -195,22 +211,22 @@ fetch(urlSalas)
 
       card.innerHTML = `
       <div class="card-left">
-          <img src="../assets/foto_salas/Eclipse.jpeg" alt="${sala.nome}" class="card-image">
+          <img src="${sala.foto}" alt="${sala.nome}" class="card-image">
           <h3 class="card-title">${sala.nome}</h3>
           <p class="card-description">
             Capacidade: ${sala.capacidade} Pessoas
           </p>
       </div>
         <div class="card-right">
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="08:00">08:00 - 09:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="09:00">09:00 - 10:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="10:00">10:00 - 11:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="11:00">11:00 - 12:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="13:00">13:00 - 14:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="14:00">14:00 - 15:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="15:00">15:00 - 16:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="16:00">16:00 - 17:00</button>
-          <button class="time-slot" data-sala-id="${sala.id}" data-time="17:00">17:00 - 18:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="08:00" data-fin="09:00">08:00 - 09:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="09:00" data-fin="10:00">09:00 - 10:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="10:00" data-fin="11:00">10:00 - 11:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="11:00" data-fin="12:00">11:00 - 12:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="12:00" data-fin="13:00">12:00 - 13:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="13:00" data-fin="14:00">13:00 - 14:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="14:00" data-fin="15:00">14:00 - 15:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="15:00" data-fin="16:00">15:00 - 16:00</button>
+          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="16:00" data-fin="17:00">16:00 - 17:00</button>
           <div class="div-per">
             <button class="time-slot-perso" onclick="openPopupPersonalisarHorario()">Personalizar</button>
             <div id="popup-personalisar" >
