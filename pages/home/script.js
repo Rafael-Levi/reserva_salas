@@ -115,15 +115,13 @@ function closePopup() {
 }
 
 function openPopupPersonalisarHorario() {
-  document.getElementById("popup-personalisar").style.display = "flex";
-  document.body.style.overflow = "hidden";
+  document.querySelector(".popup-personalizar").style.display = "flex";
   document.querySelector(".time-slot-perso").style.display = "none"; // Esconde o botão
 }
 
 
 function closePopupPersonalisarHorario() {
-  document.getElementById("popup-personalisar").style.display = "none";
-  document.body.style.overflow = "auto";
+  document.querySelector(".popup-personalizar").style.display = "none";
   document.querySelector(".time-slot-perso").style.display = "block"; // Mostra o botão novamente
 }
 
@@ -141,7 +139,7 @@ function fetchAndUpdateCards(selectedDate) {
     fetch(url)
       .then(response => response.json())
       .then(agendamentos => {
-        console.log(`Agendamentos recebidos para a sala ${salaId}:`, agendamentos);
+        console.log(`Agendamentos recebidos para a sala ${salaId}:, agendamentos`);
 
         // Seleciona os botões de horários dentro do cartão
         const buttons = card.querySelectorAll(".time-slot");
@@ -150,27 +148,26 @@ function fetchAndUpdateCards(selectedDate) {
           // Obtém o horário do botão (exemplo: "08:00")
           const buttonTimeIni = button.getAttribute("data-ini");
           const buttonTimeFin = button.getAttribute("data-fin");
-         
+
 
           // Verifica se o horário está na lista de agendamentos
           const isReserved = agendamentos.some(
-            item => item.horario_inicio.substring(0, 5) === buttonTimeIni&&
-            item.horario_fim.substring(0, 5) === buttonTimeFin
-              
-          );
-          const isPerso = agendamentos.some(
-            itemper => itemper.personalizado==1&&
-            itemper.horario_inicio.substring(0, 5) >=  buttonTimeIni&&
-            itemper.horario_fim.substring(0, 5) <= buttonTimeFin
-          )
-          console.log(isPerso)
+            item => item.horario_inicio.substring(0, 5) === buttonTimeIni && 
+            item.horario_fim.substring(0, 5) === buttonTimeFin);
 
-          if(isPerso){
-            console.log('oi')
-          }
+          const isPerso = agendamentos.some(itemper => {
+            if (itemper.personalizado == 1) {
+              const startPerso = itemper.horario_inicio.substring(0, 5);
+              const endPerso = itemper.horario_fim.substring(0, 5);
 
-          // Atualiza a classe e o estado do botão com base na reserva
-          if (isReserved) {
+              // Verifique se o intervalo de tempo está dentro do personalizado
+              return buttonTimeIni >= startPerso && buttonTimeFin <= endPerso;
+            }
+            return false;
+          });
+
+          // Atualiza o estado do botão com base em reservas regulares e personalizadas
+          if (isReserved || isPerso) {
             button.classList.add("reserved");
             button.disabled = true;
           } else {
@@ -180,8 +177,8 @@ function fetchAndUpdateCards(selectedDate) {
         });
       })
       .catch(error => {
-        console.error(`Erro ao buscar agendamentos para a sala ${salaId}:`, error);
-      });
+        console.error(`Erro ao buscar agendamentos para a sala ${salaId}:, error`);
+    });
   });
 }
 
@@ -229,8 +226,8 @@ fetch(urlSalas)
           <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="16:00" data-fin="17:00">16:00 - 17:00</button>
           <div class="div-per">
             <button class="time-slot-perso" onclick="openPopupPersonalisarHorario()">Personalizar</button>
-            <div id="popup-personalisar" >
-              <table class="popup-personalisar-content">
+            <div class="popup-personalizar" >
+              <table class="popup-personalizar-content">
                 <thead>
                     <tr class="table-header">
                         <th class="table-header-l">Horário de Início</th>

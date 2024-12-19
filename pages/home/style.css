@@ -222,10 +222,10 @@ nav{
 }
 
 /* Popup Container */
-#popup-personalisar {
+.popup-personalizar {
   display: none; /* Escondido inicialmente */
   background-color: #333;
-  padding: 20px;
+  padding: 0.5rem;
   border-radius: 8px;
   position: relative;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
@@ -245,7 +245,7 @@ nav{
 }
 
 /* Input de Tempo */
-.popup-personalisar-content input[type="time"] {
+.popup-personalizar-content input[type="time"] {
   width: 80%;
   padding: 10px;
   margin: 15px;
