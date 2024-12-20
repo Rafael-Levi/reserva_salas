@@ -104,25 +104,41 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function openPopup() {
-    document.getElementById("popup").style.display = "flex";
-    document.body.style.overflow = "hidden"; 
+function openPopup(id) {
+  const popup = document.getElementById(`popup-${id}`);
+  const button = document.getElementById(`btn-${id}`);
+  if (popup && button) {
+    popup.style.display = "flex";
+    button.style.display = "none"; // Esconde o botão "Personalizar"
+  }
 }
 
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-    document.body.style.overflow = "auto"; 
+function closePopup(id) {
+  const popup = document.getElementById(`popup-${id}`);
+  const button = document.getElementById(`btn-${id}`);
+  if (popup && button) {
+    popup.style.display = "none";
+    button.style.display = "block"; // Mostra o botão "Personalizar" novamente
+  }
 }
 
-function openPopupPersonalisarHorario() {
-  document.querySelector(".popup-personalizar").style.display = "flex";
-  document.querySelector(".time-slot-perso").style.display = "none"; // Esconde o botão
+
+function openPopupPersonalisarHorario(id) {
+  const popup = document.getElementById(`popup-perso-${id}`);
+  const button = document.getElementById(`btn-perso-${id}`);
+  if (popup && button) {
+    popup.style.display = "flex";
+    button.style.display = "none"; // Esconde o botão "Personalizar"
+  }
 }
 
-
-function closePopupPersonalisarHorario() {
-  document.querySelector(".popup-personalizar").style.display = "none";
-  document.querySelector(".time-slot-perso").style.display = "block"; // Mostra o botão novamente
+function closePopupPersonalisarHorario(id) {
+  const popup = document.getElementById(`popup-perso-${id}`);
+  const button = document.getElementById(`btn-perso-${id}`);
+  if (popup && button) {
+    popup.style.display = "none";
+    button.style.display = "block"; // Mostra o botão "Personalizar" novamente
+  }
 }
 
 function fetchAndUpdateCards(selectedDate) {
@@ -205,7 +221,7 @@ fetch(urlSalas)
     salas.forEach(sala => {
       const card = document.createElement("div");
       card.className = "card";
-
+    
       card.innerHTML = `
       <div class="card-left">
           <img src="${sala.foto}" alt="${sala.nome}" class="card-image">
@@ -215,18 +231,18 @@ fetch(urlSalas)
           </p>
       </div>
         <div class="card-right">
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="08:00" data-fin="09:00">08:00 - 09:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="09:00" data-fin="10:00">09:00 - 10:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="10:00" data-fin="11:00">10:00 - 11:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="11:00" data-fin="12:00">11:00 - 12:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="12:00" data-fin="13:00">12:00 - 13:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="13:00" data-fin="14:00">13:00 - 14:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="14:00" data-fin="15:00">14:00 - 15:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="15:00" data-fin="16:00">15:00 - 16:00</button>
-          <button onclick="openPopup()" class="time-slot" data-sala-id="${sala.id}" data-ini="16:00" data-fin="17:00">16:00 - 17:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="08:00" data-fin="09:00">08:00 - 09:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="09:00" data-fin="10:00">09:00 - 10:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="10:00" data-fin="11:00">10:00 - 11:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="11:00" data-fin="12:00">11:00 - 12:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="12:00" data-fin="13:00">12:00 - 13:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="13:00" data-fin="14:00">13:00 - 14:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="14:00" data-fin="15:00">14:00 - 15:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="15:00" data-fin="16:00">15:00 - 16:00</button>
+          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="16:00" data-fin="17:00">16:00 - 17:00</button>
           <div class="div-per">
-            <button class="time-slot-perso" onclick="openPopupPersonalisarHorario()">Personalizar</button>
-            <div class="popup-personalizar" >
+            <button class="time-slot-perso" onclick="openPopupPersonalisarHorario(${sala.id})" id="btn-perso-${sala.id}">Personalizar</button>
+            <div class="popup-personalizar" id="popup-perso-${sala.id}">
               <table class="popup-personalizar-content">
                 <thead>
                     <tr class="table-header">
@@ -240,21 +256,32 @@ fetch(urlSalas)
                         <td><input type="time"></td>
                         <td class="actions">
                             <button class="btn">Salvar</button>
-                            <button class="bnt-danger" onclick="closePopupPersonalisarHorario()">Sair</button>
+                            <button class="bnt-danger" onclick="closePopupPersonalisarHorario(${sala.id})">Sair</button>
                         </td>
                     </tr>
                 </tbody>
               </table>
-        
             </div>
           </div>
         </div> 
         </div>
- 
-      `;
 
+      <div id="popup-${sala.id}" class="popup">
+        <div class="popup-content">
+          <h2>Reservar horário</h2>
+          <form>
+              <label for="matrícula">Matrícula</label>
+              <input type="password" id="matricula" placeholder="Digite sua matrícula" required>
+              <button type="submit" class="btn-submit">Confirmar Reserva</button>
+              <button type="button" class="btn-close" onclick="closePopup(${sala.id})">Cancelar</button>
+          </form>
+        </div>
+      </div>
+      `;
+    
       container.appendChild(card);
     });
+    
   })
   .catch(error => {
     console.error("Erro ao carregar as salas:", error);
