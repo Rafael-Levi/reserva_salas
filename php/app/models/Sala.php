@@ -1,5 +1,5 @@
 <?php
-require '../config/database.php'; // Corrected path
+require '../config/database.php';
 
 class Sala
 {

@@ -1,74 +1,61 @@
+const urlSalas = '../../php/app/router.php?endpoint=salas';
+const urlaAdicionarAgendamento = '../../php/app/router.php?endpoint=adicionarAgendamento';
+
 document.addEventListener("DOMContentLoaded", () => {
-  generateWeek();
-
-  const rhButton = document.getElementById("rh-button");
-  const popup = document.getElementById("popup-rh");
-  const closeButton = document.getElementById("close-popup-rh");
-  const form = document.getElementById("registration-form-rh");
- 
-  rhButton.addEventListener("click", () => {
-    popup.style.display = "flex";
-    popup.body.style.overflow = "hidden";
-  });
- 
-  closeButton.addEventListener("click", () => {
-    popup.style.display = "none";
-    popup.body.style.overflow = "auto"; 
-  });
- 
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
- 
-    const mat = document.getElementById("mat-rh").value.trim();
-    const password = document.getElementById("senha-rh").value.trim();
- 
-    if (mat == 'rafael' && password == '1234') {
-      alert("Cadastro validado com sucesso!");
-      window.location.href = "../RH/RH.html"; // Redireciona para outra página
-    } else {
-      alert("Por favor, preencha todos os campos.");
-    }
-  });
-});
-
-function generateWeek() {
   const daysElement = document.getElementById("days");
   const today = new Date();
-  const currentDayIndex = today.getDay();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - currentDayIndex + (currentDayIndex === 0 ? -6 : 1));
+  let currentDayIndex = today.getDay();
+
+  if (currentDayIndex === 6) {
+      today.setDate(today.getDate() + 2); 
+  } else if (currentDayIndex === 0) {
+      today.setDate(today.getDate() + 1); 
+  }
 
   const weekDays = ["", "SEG", "TER", "QUA", "QUI", "SEX"];
   let daysHTML = "";
 
   for (let i = 0; i < 5; i++) {
-    const currentDate = new Date(startOfWeek);
-    currentDate.setDate(startOfWeek.getDate() + i);
+      const currentDate = new Date(today);
+      currentDate.setDate(today.getDate() + i);
 
-    const dayName = weekDays[currentDate.getDay()];
-    const dayNumber = currentDate.getDate();
-    const monthNumber = currentDate.getMonth() + 1;
-    const formattedDate = `${currentDate.getFullYear()}-${String(monthNumber).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
+      if (currentDate.getDay() === 6) { 
+          currentDate.setDate(currentDate.getDate() + 2);
+      } else if (currentDate.getDay() === 0) { 
+          currentDate.setDate(currentDate.getDate() + 1);
+      }
 
-    daysHTML += `
-      <div data-date="${formattedDate}" class="day">
-        <span class="dia">${dayName}</span>
-        <span class="date">${dayNumber.toString().padStart(2, "0")}/${monthNumber.toString().padStart(2, "0")}</span>
-      </div>
-    `;
+      const dayName = weekDays[currentDate.getDay()];
+      const dayNumber = currentDate.getDate();
+      const monthNumber = currentDate.getMonth() + 1;
+      const formattedDate = `${currentDate.getFullYear()}-${String(monthNumber).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
+
+      daysHTML += `
+          <div data-date="${formattedDate}" class="day${i === 0 ? " selected" : ""}">
+              <span class="dia">${dayName}</span>
+              <span class="date">${dayNumber.toString().padStart(2, "0")}/${monthNumber.toString().padStart(2, "0")}</span>
+          </div>
+      `;
   }
 
   daysElement.innerHTML = daysHTML;
 
-  // Adiciona eventos de clique
+  // Seleciona o primeiro dia automaticamente e chama fetchAndUpdateCards
+  const firstDayElement = document.querySelector(".day.selected");
+  const firstSelectedDate = firstDayElement.getAttribute("data-date");
+  fetchAndUpdateCards(firstSelectedDate);
+
+  // Adiciona eventos de clique para os dias
   document.querySelectorAll(".day").forEach(dayElement => {
-    dayElement.addEventListener("click", event => {
-      const selectedDate = event.currentTarget.getAttribute("data-date");
-      fetchAndUpdateCards(selectedDate);
-    });
+      dayElement.addEventListener("click", event => {
+          document.querySelectorAll(".day").forEach(el => el.classList.remove("selected")); // Remove seleção
+          event.currentTarget.classList.add("selected"); // Adiciona ao elemento clicado
+
+          const selectedDate = event.currentTarget.getAttribute("data-date");
+          fetchAndUpdateCards(selectedDate); 
+      });
   });
-}
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -104,14 +91,58 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+
 function openPopup(id) {
   const popup = document.getElementById(`popup-${id}`);
   const button = document.getElementById(`btn-${id}`);
+  const mat = document.getElementById("mat").value.trim();
+
   if (popup && button) {
     popup.style.display = "flex";
     button.style.display = "none"; // Esconde o botão "Personalizar"
   }
+  if (mat == 'rafael') {
+      const sala_id = button.getAttribute("data-sala-id");
+      const horario_inicio = button.getAttribute("data-ini");
+      const horario_fim = button.getAttribute("data-fin");
+
+      // Captura a data selecionada no calendário
+      const selectedDay = document.querySelector(".day.selected");
+      const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
+
+      if (!data_agendamento) {
+          console.error("Nenhuma data selecionada.");
+          return;
+      }
+
+      // Configura o URL para o endpoint
+      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=0`;
+
+      // Faz a requisição para o endpoint
+      fetch(url, { method: "POST" })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`Erro na requisição: ${response.statusText}`);
+              }
+              return response.json();
+          })
+          .then(data => {
+              console.log("Agendamento adicionado com sucesso:", data);
+              alert("Agendamento realizado com sucesso!");
+          })
+          .catch(error => {
+              console.error("Erro ao adicionar o agendamento:", error);
+              alert("Erro ao adicionar o agendamento.");
+          });
+    }
+    
+   else {
+    alert("Por favor, preencha todos os campos.");
+  }
 }
+
+
 
 function closePopup(id) {
   const popup = document.getElementById(`popup-${id}`);
@@ -140,6 +171,7 @@ function closePopupPersonalisarHorario(id) {
     button.style.display = "block"; // Mostra o botão "Personalizar" novamente
   }
 }
+
 
 function fetchAndUpdateCards(selectedDate) {
   // Seleciona todos os cartões de sala
@@ -198,8 +230,6 @@ function fetchAndUpdateCards(selectedDate) {
   });
 }
 
-
-const urlSalas = '../../php/app/router.php?endpoint=salas';
 
 fetch(urlSalas)
   .then(response => response.json())
@@ -271,7 +301,7 @@ fetch(urlSalas)
           <h2>Reservar horário</h2>
           <form>
               <label for="matrícula">Matrícula</label>
-              <input type="password" id="matricula" placeholder="Digite sua matrícula" required>
+              <input type="password" id="mat" placeholder="Digite sua matrícula" required>
               <button type="submit" class="btn-submit">Confirmar Reserva</button>
               <button type="button" class="btn-close" onclick="closePopup(${sala.id})">Cancelar</button>
           </form>

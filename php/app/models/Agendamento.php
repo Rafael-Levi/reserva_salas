@@ -25,11 +25,11 @@ class Agendamento
         return $agendamentos;
     }
 
-    public function adicionar($id_sala, $data, $horario_inicio, $horario_fim)
+    public function adicionar($id_sala, $data, $horario_inicio, $horario_fim,$personalizado)
     {
-        $sql = "INSERT INTO agendamentos (id_sala, data, horario_inicio, horario_fim) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO agendamentos (id_sala, data, horario_inicio, horario_fim,personalizado) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("isss", $id_sala, $data, $horario_inicio, $horario_fim);
+        $stmt->bind_param("isss", $id_sala, $data, $horario_inicio, $horario_fim,$personalizado);
         return $stmt->execute();
     }
 
@@ -41,3 +41,4 @@ class Agendamento
         return $stmt->execute();
     }
 }
+?>

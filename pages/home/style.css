@@ -79,6 +79,21 @@ nav{
   color: #d1d1d1;
 }
 
+.day {
+  cursor: pointer;
+  padding: 10px;
+ 
+  margin: 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.day.selected {
+  background-color: #3a3a3a; 
+  color: #fff;
+  font-weight: bold;
+}
+
 .calendar div .date {
   color: #4a90e2;
 }

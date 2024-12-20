@@ -33,8 +33,9 @@ class AgendamentoController
         $data_agendamento = $data['data'];
         $horario_inicio = $data['horario_inicio'];
         $horario_fim = $data['horario_fim'];
+        $personalizado = $data['personalizado'];
 
-        if ($this->agendamento->adicionar($id_sala, $data_agendamento, $horario_inicio, $horario_fim)) {
+        if ($this->agendamento->adicionar($id_sala, $data_agendamento, $horario_inicio, $horario_fim,$personalizado)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento"]);
@@ -52,3 +53,4 @@ class AgendamentoController
         }
     }
 }
+?>
