@@ -166,15 +166,18 @@ nav{
   background-color: #8ecccc;
 }
 
-.card-right {
+.horario {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
-  gap: 10px;
-  width: -webkit-fill-available;
-  height: 400px;
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 20px; 
+  padding: 10px; 
 }
 
 .time-slot {
+  
   background-color: #333;
   color: white;
   padding:1rem;
@@ -193,6 +196,11 @@ nav{
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  
+}
+
+.time-slot:hover {
+  background-color: #3a6f8c; 
 }
 
 .time-slot.reserved {
@@ -223,12 +231,11 @@ nav{
 }
 
 .div-per{
-  grid-column: span 3; /* Ocupa toda a largura */
+  grid-column: span 3; 
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px; /* Espaço entre os horários e o botão */
-  
+  margin-top: 20px; 
 }
 .time-slot-perso{
    

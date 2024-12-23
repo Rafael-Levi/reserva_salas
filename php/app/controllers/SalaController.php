@@ -18,16 +18,32 @@ class SalaController
 
     public function adicionarSala()
     {
+        // Captura os dados enviados via GET ou POST
         $data = json_decode(file_get_contents('php://input'), true);
-        $nome = $data['nome'];
-        $capacidade = $data['capacidade'];
-
-        if ($this->sala->adicionar($nome, $capacidade)) {
+    
+        // Verifique se os dados vieram como parâmetros de URL
+        if (empty($data)) {
+            $data = $_GET;
+        }
+    
+        // Extraia os valores ou defina valores padrão
+        $nome = $data['nome'] ?? null;
+        $capacidade = $data['capacidade'] ?? null;
+    
+        // Verifique se os valores obrigatórios estão presentes
+        if (!$nome || !$capacidade) {
+            echo json_encode(["success" => false, "message" => "Nome ou capacidade não foram informados"]);
+            return;
+        }
+    
+        // Insira os dados no banco
+        if ($this->sala->adicionar($nome, (int) $capacidade)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar sala"]);
         }
     }
+    
 
     public function editarSala()
     {

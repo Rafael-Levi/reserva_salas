@@ -1,5 +1,17 @@
 const urlSalas = '../../php/app/router.php?endpoint=salas';
-const urlaAdicionarAgendamento = '../../php/app/router.php?endpoint=adicionarAgendamento';
+const horarios = [
+  { ini: "08:00", fin: "09:00" },
+  { ini: "09:00", fin: "10:00" },
+  { ini: "10:00", fin: "11:00" },
+  { ini: "11:00", fin: "12:00" },
+  { ini: "12:00", fin: "13:00" },
+  { ini: "13:00", fin: "14:00" },
+  { ini: "14:00", fin: "15:00" },
+  { ini: "15:00", fin: "16:00" },
+  { ini: "16:00", fin: "17:00" }
+
+]
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const daysElement = document.getElementById("days");
@@ -44,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstDayElement = document.querySelector(".day.selected");
   const firstSelectedDate = firstDayElement.getAttribute("data-date");
   fetchAndUpdateCards(firstSelectedDate);
-
+  
   // Adiciona eventos de clique para os dias
   document.querySelectorAll(".day").forEach(dayElement => {
       dayElement.addEventListener("click", event => {
@@ -96,53 +108,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function openPopup(id) {
   const popup = document.getElementById(`popup-${id}`);
   const button = document.getElementById(`btn-${id}`);
-  const mat = document.getElementById("mat").value.trim();
+  
 
   if (popup && button) {
     popup.style.display = "flex";
-    button.style.display = "none"; // Esconde o botão "Personalizar"
+    button.style.display = "none"; 
   }
-  if (mat == 'rafael') {
-      const sala_id = button.getAttribute("data-sala-id");
-      const horario_inicio = button.getAttribute("data-ini");
-      const horario_fim = button.getAttribute("data-fin");
-
-      // Captura a data selecionada no calendário
-      const selectedDay = document.querySelector(".day.selected");
-      const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
-
-      if (!data_agendamento) {
-          console.error("Nenhuma data selecionada.");
-          return;
-      }
-
-      // Configura o URL para o endpoint
-      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=0`;
-
-      // Faz a requisição para o endpoint
-      fetch(url, { method: "POST" })
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error(`Erro na requisição: ${response.statusText}`);
-              }
-              return response.json();
-          })
-          .then(data => {
-              console.log("Agendamento adicionado com sucesso:", data);
-              alert("Agendamento realizado com sucesso!");
-          })
-          .catch(error => {
-              console.error("Erro ao adicionar o agendamento:", error);
-              alert("Erro ao adicionar o agendamento.");
-          });
-    }
-    
-   else {
-    alert("Por favor, preencha todos os campos.");
-  }
+ 
 }
-
-
 
 function closePopup(id) {
   const popup = document.getElementById(`popup-${id}`);
@@ -150,6 +123,64 @@ function closePopup(id) {
   if (popup && button) {
     popup.style.display = "none";
     button.style.display = "block"; // Mostra o botão "Personalizar" novamente
+  }
+}
+
+function reservarSala(id) {
+  const mat = document.getElementById("mat").value.trim(); // Corrigir para buscar pelo id fixo
+
+  if (mat === '1') {
+      // Seleciona o botão clicado usando o id
+      const button = document.getElementById(`btn-${id}`);
+      if (!button) {
+          console.error(`Botão com id btn-${id} não encontrado.`);
+          return;
+      }
+
+      const sala_id = button.getAttribute("data-sala-id");
+      const horario_inicio = button.getAttribute("data-ini");
+      const horario_fim = button.getAttribute("data-fin");
+      const personalizado = 0;
+      // Captura a data selecionada no calendário
+      const selectedDay = document.querySelector(".day.selected");
+      const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
+
+      if (!data_agendamento) {
+          alert("Por favor, selecione uma data válida no calendário.");
+          return;
+      }
+
+      console.log(`data selecionada: ${data_agendamento}, sala_id: ${sala_id}, horario_inicio: ${horario_inicio}, horario_fim: ${horario_fim}`);
+
+    
+      // Configura o URL para o endpoint
+      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
+
+      // Faz a requisição para o endpoint
+      fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sala_id: sala_id, 
+          data_agendamento: data_agendamento, 
+          horario_inicio: horario_inicio, 
+          horario_fim: horario_fim, 
+          personalizado: 0
+        }),
+    })
+          .then(data => {
+              console.log("Agendamento adicionado com sucesso:", data);
+              alert("Agendamento realizado com sucesso!");
+          })
+          .catch(error => {
+            console.error("Erro ao adicionar o agendamento:", error);
+            console.error("Detalhes do erro:", error.message);
+            alert("Erro ao adicionar o agendamento. Verifique o console para mais detalhes.");
+        });
+  } else {
+      alert("Por favor, preencha o campo matrícula corretamente.");
   }
 }
 
@@ -182,7 +213,7 @@ function fetchAndUpdateCards(selectedDate) {
     const salaId = card.querySelector(".time-slot").getAttribute("data-sala-id");
 
     // Endpoint para buscar os agendamentos com base na sala e na data selecionada
-    const url = `../../php/app/router.php?endpoint=agendamentos&sala_id=${salaId}&data=${selectedDate}`;
+    const url = `../../php/app/router.php?endpoint=agendamentos&sala_id=${salaId}&data_agendamento=${selectedDate}`;
 
     fetch(url)
       .then(response => response.json())
@@ -253,6 +284,7 @@ fetch(urlSalas)
       card.className = "card";
     
       card.innerHTML = `
+      
       <div class="card-left">
           <img src="${sala.foto}" alt="${sala.nome}" class="card-image">
           <h3 class="card-title">${sala.nome}</h3>
@@ -260,53 +292,62 @@ fetch(urlSalas)
             Capacidade: ${sala.capacidade} Pessoas
           </p>
       </div>
-        <div class="card-right">
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="08:00" data-fin="09:00">08:00 - 09:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="09:00" data-fin="10:00">09:00 - 10:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="10:00" data-fin="11:00">10:00 - 11:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="11:00" data-fin="12:00">11:00 - 12:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="12:00" data-fin="13:00">12:00 - 13:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="13:00" data-fin="14:00">13:00 - 14:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="14:00" data-fin="15:00">14:00 - 15:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="15:00" data-fin="16:00">15:00 - 16:00</button>
-          <button onclick="openPopup(${sala.id})" id="btn-${sala.id}" class="time-slot" data-sala-id="${sala.id}" data-ini="16:00" data-fin="17:00">16:00 - 17:00</button>
+      <div class="card-right">
+        <div class="horario">
+          ${horarios.map((horario, index) => `
+          
+            <button 
+              onclick="openPopup('${sala.id}${index}')" 
+              id="btn-${sala.id}${index}" 
+              class="time-slot" 
+              data-sala-id="${sala.id}" 
+              data-ini="${horario.ini}" 
+              data-fin="${horario.fin}">
+              ${horario.ini} - ${horario.fin}
+            </button>
+            
+        
+            
+
+          <div id="popup-${sala.id}${index}" class="popup">
+            <div class="popup-content">
+              <h2>Reservar horário</h2>
+              <form>
+                  <label for="matrícula">Matrícula</label>
+                  <input type="text" id="mat" placeholder="Digite sua matrícula" required>
+                  <button type="submit" class="btn-submit" onclick="reservarSala(${sala.id}${index})">Confirmar Reserva</button>
+                  <button type="button" class="btn-close" onclick="closePopup(${sala.id}${index})">Cancelar</button>
+              </form>
+            </div>
+          </div>
+          `).join('')}
+
+        </div>
           <div class="div-per">
             <button class="time-slot-perso" onclick="openPopupPersonalisarHorario(${sala.id})" id="btn-perso-${sala.id}">Personalizar</button>
             <div class="popup-personalizar" id="popup-perso-${sala.id}">
               <table class="popup-personalizar-content">
                 <thead>
-                    <tr class="table-header">
-                        <th class="table-header-l">Horário de Início</th>
-                        <th class="table-header-r">Horário de Término</th>
-                    </tr>
+                  <tr class="table-header">
+                      <th class="table-header-l">Horário de Início</th>
+                      <th class="table-header-r">Horário de Término</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><input type="time"></td>
-                        <td><input type="time"></td>
-                        <td class="actions">
-                            <button class="btn">Salvar</button>
-                            <button class="bnt-danger" onclick="closePopupPersonalisarHorario(${sala.id})">Sair</button>
-                        </td>
-                    </tr>
+                  <tr>
+                    <td><input type="time"></td>
+                    <td><input type="time"></td>
+                    <td class="actions">
+                      <button class="btn">Salvar</button>
+                      <button class="bnt-danger" onclick="closePopupPersonalisarHorario(${sala.id})">Sair</button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-            </div>
           </div>
-        </div> 
-        </div>
-
-      <div id="popup-${sala.id}" class="popup">
-        <div class="popup-content">
-          <h2>Reservar horário</h2>
-          <form>
-              <label for="matrícula">Matrícula</label>
-              <input type="password" id="mat" placeholder="Digite sua matrícula" required>
-              <button type="submit" class="btn-submit">Confirmar Reserva</button>
-              <button type="button" class="btn-close" onclick="closePopup(${sala.id})">Cancelar</button>
-          </form>
         </div>
       </div>
+
       `;
     
       container.appendChild(card);

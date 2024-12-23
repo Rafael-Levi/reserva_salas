@@ -9,10 +9,10 @@ header('Content-Type: application/json');
 //$dotenv->load();
 
 // Configuração do banco de dados usando as variáveis do .env
-$servername = "localhost"
-$username = "root"
-$password = ""
-$dbname = "agendamento_salas"
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "agendamento_salas";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
