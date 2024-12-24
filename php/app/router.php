@@ -59,7 +59,16 @@ switch ($endpoint) {
             echo json_encode(["success" => false, "message" => "Método não permitido"]);
         }
         break;
-
+    
+    case 'verificar_horario': // GET: Verificar se ja existe um horario
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            $agendamentoController->verificarHorario();
+        }else{
+            http_response_code(405);
+            echo json_encode(["success" => false, "message" => "Método não permitido"]);
+        }
+        break;
+        
     case 'adicionar_agendamento': // POST: Adicionar agendamento
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $agendamentoController->adicionarAgendamento();

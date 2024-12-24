@@ -26,6 +26,42 @@ class AgendamentoController
         echo json_encode($agendamentos);
     }
 
+    public function verificarHorario() {
+        $id_sala = isset($_GET['sala_id']) ? intval($_GET['sala_id']) : 0;
+        $data_agendamento = isset($_GET['data_agendamento']) ? $_GET['data_agendamento'] : null;
+        $horario_inicio = isset($_GET['horario_inicio']) ? $_GET['horario_inicio'] : null;
+        $horario_fim = isset($_GET['horario_fim']) ? $_GET['horario_fim'] : null;
+
+        // Validações básicas
+        if (!$id_sala || !$data_agendamento || !$horario_inicio || !$horario_fim) {
+            echo json_encode(['error' => 'Parâmetros inválidos ou faltando.']);
+            return;
+        }
+
+        // Validação do formato da data
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data_agendamento)) {
+            echo json_encode(['error' => 'Formato de data_agendamento inválido.']);
+            return;
+        }
+
+        // Validação do formato dos horários
+        if (!preg_match('/^\d{2}:\d{2}/', $horario_inicio) || !preg_match('/^\d{2}:\d{2}/', $horario_fim)) {
+            echo json_encode(['error' => 'Formato de horário inválido.']);
+            return;
+        }
+
+        try {
+            // Chama o model para verificar conflitos
+            $conflito = $this->agendamento->verificarHorario($id_sala, $data_agendamento, $horario_inicio, $horario_fim);
+
+            // Retorna a resposta em JSON
+            echo json_encode(['conflito' => $conflito]);
+        } catch (Exception $e) {
+            echo json_encode(['error' => 'Erro ao verificar o horário.', 'details' => $e->getMessage()]);
+        }
+    }
+
+
     public function adicionarAgendamento()
     {
         $data = json_decode(file_get_contents('php://input'), true);

@@ -25,6 +25,26 @@ class Agendamento
         return $agendamentos;
     }
 
+    public function verificarHorario($id_sala, $data_agendamento, $horario_inicio, $horario_fim) 
+    {
+        $sql = "SELECT COUNT(*) AS total FROM agendamentos 
+                WHERE id_sala = ? 
+                AND data_agendamento = ? 
+                AND ((horario_inicio < ? AND horario_fim > ?) OR (horario_inicio < ? AND horario_fim > ?))";
+
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("isssss", $id_sala, $data_agendamento, $horario_fim, $horario_inicio, $horario_inicio, $horario_fim);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        return $row['total'] > 0; // Retorna true se existir algum conflito, false caso contrário
+    }
+
     public function adicionar($id_sala, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
     {
         $sql = "INSERT INTO agendamentos (id_sala, data_agendamento, horario_inicio, horario_fim, personalizado)

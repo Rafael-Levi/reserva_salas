@@ -132,6 +132,13 @@ nav{
   margin-right: 20px;
 }
 
+.card-right{
+  width: 100%;
+  padding: 2rem;
+
+}
+
+
 .card-image {
   width: 400px;
   height: auto;
