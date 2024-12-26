@@ -28,6 +28,9 @@ if (!$conn->query($sqlSalas)) {
 $sqlAgendamentos = "CREATE TABLE IF NOT EXISTS agendamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sala INT NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    funcao VARCHAR(255) NOT NULL,
+    matricula VARCHAR(6) NOT NULL,
     data_agendamento DATE NOT NULL,
     horario_inicio TIME NOT NULL,
     horario_fim TIME NOT NULL,

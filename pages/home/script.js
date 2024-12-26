@@ -13,7 +13,6 @@ const horarios = [
 ]
 
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const daysElement = document.getElementById("days");
   const today = new Date();
@@ -181,14 +180,14 @@ function validarReserva(sala_id,data_agendamento,horario_inicio,horario_fim){
 
 
 function reservarSala(id) {
-  const mat = document.getElementById(`mat-${id}`)?.value.trim(); // Corrigir para buscar pelo id fixo
+  const mat = document.getElementById(`mat-${id}`)?.value.trim();
 
   if (!mat) {
       alert("Por favor, preencha o campo matrícula corretamente.");
       return;
   }
 
-  if (mat === '1') {
+  if (mat === '1234') {
       const button = document.getElementById(`btn-${id}`);
       if (!button) {
           console.error(`Botão com id btn-${id} não encontrado.`);
@@ -208,9 +207,9 @@ function reservarSala(id) {
           return;
       }
 
-      alert(`Sala:${sala_nome} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
+      alert(`Sala:${sala_nome} matricula:${mat} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
 
-      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
+      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&matricula=${mat}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
 
       fetch(url, {
           method: "POST",
@@ -219,6 +218,7 @@ function reservarSala(id) {
           },
           body: JSON.stringify({
               sala_id: sala_id,
+              matricula:mat,
               data_agendamento: data_agendamento,
               horario_inicio: horario_inicio,
               horario_fim: horario_fim,
@@ -273,14 +273,13 @@ function salvarHorarioPersonalizado(sala_id) {
     return;
   }
 
-
   validarReserva(sala_id, data_agendamento, horario_inicio, horario_fim);
     
       if (!validarReserva) {
         alert("Já existe um agendamento nesse horário. Escolha outro horário.");
       } else {
         // Se não houver conflito, salva o agendamento
-        const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=1`;
+        const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=1`;
 
         fetch(urlSalvar, {
           method: "POST",
@@ -466,6 +465,9 @@ fetch(urlSalas)
       container.appendChild(card);
     });
     
+    const firstDayElement = document.querySelector(".day.selected");
+    const firstSelectedDate = firstDayElement.getAttribute("data-date");
+    fetchAndUpdateCards(firstSelectedDate);
   })
   .catch(error => {
     console.error("Erro ao carregar as salas:", error);

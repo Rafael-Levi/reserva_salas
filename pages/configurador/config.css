@@ -26,14 +26,6 @@ header nav a {
   font-size: 1em;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
 
 h2 {
   border-bottom: 2px solid #8ecccc;
@@ -66,7 +58,7 @@ table tr:hover {
   background-color: #e8e8e8;
 }
 
-.btn {
+.btn-edit  {
   background-color: #8ecccc;
   color: #fff;
   border: none;
@@ -80,12 +72,13 @@ table tr:hover {
   background-color: #50717b;
 }
 
-.btn-danger {
+.btn-excluir {
   background-color: #d9534f;
 }
 
-.btn-danger:hover {
+.btn-excluir:hover {
   background-color: #c9302c;
+  cursor: pointer;
 }
 
 input, select {

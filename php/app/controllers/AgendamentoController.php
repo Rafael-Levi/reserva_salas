@@ -26,6 +26,11 @@ class AgendamentoController
         echo json_encode($agendamentos);
     }
 
+    public function ListarReservas()
+    {     
+        echo json_encode($this->agendamento->listarReservas());   
+    }
+
     public function verificarHorario() {
         $id_sala = isset($_GET['sala_id']) ? intval($_GET['sala_id']) : 0;
         $data_agendamento = isset($_GET['data_agendamento']) ? $_GET['data_agendamento'] : null;
@@ -74,13 +79,29 @@ class AgendamentoController
     
         // Adicione esta validação para identificar problemas na entrada
         if (!$data) {
-            echo json_encode(["success" => false, "message" => "Nenhum dado recebido ou formato inválido."]);
+            echo json_encode(["success" => false, "message" => $data]);
             return;
         }
-    
+        
+        if(
+            !isset($data['matricula'])
+        ){
+            $mat = $data['matricula'];
+            $matUrl = `http://ceneged150536.protheus.cloudtotvs.com.br:1739/rest/fluigepi/getSRA?RA_MAT=$mat`;
+
+            $ch = curl_init($matUrl);
+          
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Para obter a resposta da API
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Authorization: Basic YWRtaW46QEAyMDI0Y25n', // Header de autenticação
+             ));
+        }
+
+
         // Verifica se todas as chaves obrigatórias estão presentes
         if (
-            !isset($data['sala_id'], $data['data_agendamento'], $data['horario_inicio'], $data['horario_fim'], $data['personalizado'])
+            !isset($data['sala_id'],$data['nome'],$data['funcao'],$data['matricula'], $data['data_agendamento'], $data['horario_inicio'], $data['horario_fim'], $data['personalizado'])
         ) {
             echo json_encode(["success" => false, "message" => "Dados incompletos fornecidos."]);
             return;
@@ -88,12 +109,15 @@ class AgendamentoController
     
         // Inicializa as variáveis com os dados recebidos
         $id_sala = $data['sala_id'];
+        $nome = $data['nome'];
+        $funcao = $data['funcao'];
+        $matricula = $data['matricula'];
         $data_agendamento = $data['data_agendamento'];
         $horario_inicio = $data['horario_inicio'];
         $horario_fim = $data['horario_fim'];
         $personalizado = $data['personalizado'] ? 1 : 0;
     
-        if ($this->agendamento->adicionar($id_sala, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
+        if ($this->agendamento->adicionar($id_sala,$nome,$funcao,$matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento"]);

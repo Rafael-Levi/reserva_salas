@@ -60,6 +60,15 @@ switch ($endpoint) {
         }
         break;
     
+    case 'listar_reservas'; // GET: Listar reservas
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $agendamentoController->ListarReservas();
+        } else {
+            http_response_code(405);
+            echo json_encode(["success" => false, "message" => "Método não permitido"]);
+        }
+        break;
+
     case 'verificar_horario': // GET: Verificar se ja existe um horario
         if($_SERVER['REQUEST_METHOD'] === 'GET'){
             $agendamentoController->verificarHorario();

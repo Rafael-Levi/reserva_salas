@@ -25,6 +25,30 @@ class Agendamento
         return $agendamentos;
     }
 
+    public function listarReservas()
+    {
+        $sql = "SELECT agendamentos.id,
+                        agendamentos.nome,
+                        agendamentos.funcao,
+                        agendamentos.data_agendamento,
+                        agendamentos.horario_inicio,
+                        agendamentos.horario_fim, 
+                        salas.nome 
+                FROM agendamentos 
+                LEFT JOIN salas 
+                ON agendamentos.id_sala = salas.id;";
+        
+        $result = $this->conn->query($sql);
+        $reservas = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $reservas[] = $row;
+            }
+        }
+        return $reservas;
+
+    }
+
     public function verificarHorario($id_sala, $data_agendamento, $horario_inicio, $horario_fim) 
     {
         $sql = "SELECT COUNT(*) AS total FROM agendamentos 
@@ -45,10 +69,10 @@ class Agendamento
         return $row['total'] > 0; // Retorna true se existir algum conflito, false caso contrário
     }
 
-    public function adicionar($id_sala, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
+    public function adicionar($id_sala,$nome, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
     {
-        $sql = "INSERT INTO agendamentos (id_sala, data_agendamento, horario_inicio, horario_fim, personalizado)
-                VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO agendamentos (id_sala,matricula, data_agendamento, horario_inicio, horario_fim, personalizado)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
         $stmt = $this->conn->prepare($sql);
     
@@ -58,8 +82,11 @@ class Agendamento
         }
     
         $stmt->bind_param(
-            "isssi",
+            "iisssssi",
             $id_sala,
+            $nome.
+            $funcao,
+            $matricula,
             $data_agendamento,
             $horario_inicio,
             $horario_fim,
@@ -73,11 +100,7 @@ class Agendamento
     
         return true;
     }
-    
-    
-    
-
-    
+  
     public function excluir($id)
     {
         $sql = "DELETE FROM agendamentos WHERE id = ?";

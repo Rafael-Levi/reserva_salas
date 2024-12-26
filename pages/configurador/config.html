@@ -15,49 +15,31 @@
         </nav>
     </header>
 
-   <div class="container"> 
- 
-
-        <section>
-            <h2>Reservas Atuais</h2>
-            <input type="text" placeholder="Buscar reservas...">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Sala</th>
-                        <th>Data</th>
-                        <th>Horário</th>
-                        <th>Reservado por</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Sala 1</td>
-                        <td>2024-12-14</td>
-                        <td>14:00 - 16:00</td>
-                        <td>João Silva</td>
-                        <td class="actions">
-                            <button class="btn">Editar</button>
-                            <button class="btn-danger">Excluir</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+    <section>
+        <h2>Reservas Atuais</h2>
+        <input type="text" placeholder="Buscar reservas...">
+        <table>
+          <thead>
+            <tr>
+              <th>Sala</th>
+              <th>Data</th>
+              <th>Horários</th>
+              <th>Matrícula</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="content-agendamento">
+            <!-- As linhas das reservas serão inseridas aqui dinamicamente -->
+          </tbody>
+        </table>
+    </section>
+      
     </div>
 
     <footer>
         <p>Desenvolvido por <a href="#">Rafael Levi</a></p>
     </footer>
 
-    <script>
-        // Placeholder for interactivity (e.g., salvar, excluir, buscar)
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', () => {
-                alert('Confirma a exclusão?');
-            });
-        });
-    </script>
+    <script src="config.js"></script>
 </body>
 </html>
