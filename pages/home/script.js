@@ -16,25 +16,23 @@ const horarios = [
 document.addEventListener("DOMContentLoaded", () => {
   const daysElement = document.getElementById("days");
   const today = new Date();
-  let currentDayIndex = today.getDay();
 
-  if (currentDayIndex === 6) {
-      today.setDate(today.getDate() + 2); 
-  } else if (currentDayIndex === 0) {
-      today.setDate(today.getDate() + 1); 
+  // Ajusta o dia inicial para evitar finais de semana
+  while (today.getDay() === 0 || today.getDay() === 6) {
+      today.setDate(today.getDate() + 1);
   }
 
   const weekDays = ["", "SEG", "TER", "QUA", "QUI", "SEX"];
   let daysHTML = "";
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0, daysAdded = 0; i < 5; i++) {
       const currentDate = new Date(today);
-      currentDate.setDate(today.getDate() + i);
+      currentDate.setDate(today.getDate() + daysAdded);
 
-      if (currentDate.getDay() === 6) { 
-          currentDate.setDate(currentDate.getDate() + 2);
-      } else if (currentDate.getDay() === 0) { 
+      // Pula finais de semana no cálculo do dia
+      while (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
           currentDate.setDate(currentDate.getDate() + 1);
+          daysAdded++;
       }
 
       const dayName = weekDays[currentDate.getDay()];
@@ -48,6 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="date">${dayNumber.toString().padStart(2, "0")}/${monthNumber.toString().padStart(2, "0")}</span>
           </div>
       `;
+
+      daysAdded++; // Incrementa o contador apenas após verificar o final de semana
   }
 
   daysElement.innerHTML = daysHTML;
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstDayElement = document.querySelector(".day.selected");
   const firstSelectedDate = firstDayElement.getAttribute("data-date");
   fetchAndUpdateCards(firstSelectedDate);
-  
+
   // Adiciona eventos de clique para os dias
   document.querySelectorAll(".day").forEach(dayElement => {
       dayElement.addEventListener("click", event => {
@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 });
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -142,11 +143,6 @@ function closePopupPersonalisarHorario(id) {
 }
 
 
-
-function validateForm(){
-  throw 'Not implemented'
-}
-
 function validarReserva(sala_id,data_agendamento,horario_inicio,horario_fim){
   verficarHorarioUrl = `../../php/app/router.php?endpoint=verificar_horario&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}`
   
@@ -181,64 +177,62 @@ function validarReserva(sala_id,data_agendamento,horario_inicio,horario_fim){
 
 function reservarSala(id) {
   const mat = document.getElementById(`mat-${id}`)?.value.trim();
-
+  const button = document.getElementById(`btn-${id}`);
   if (!mat) {
       alert("Por favor, preencha o campo matrícula corretamente.");
       return;
   }
-
-  if (mat === '1234') {
-      const button = document.getElementById(`btn-${id}`);
-      if (!button) {
-          console.error(`Botão com id btn-${id} não encontrado.`);
-          return;
-      }
-      const sala_nome = document.getElementsByClassName("card-title")[0].textContent;
-      const sala_id = button.getAttribute("data-sala-id");
-      const horario_inicio = button.getAttribute("data-ini");
-      const horario_fim = button.getAttribute("data-fin");
-      const personalizado = 0;
-
-      const selectedDay = document.querySelector(".day.selected");
-      const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
-      
-      if (!data_agendamento) {
-          alert("Por favor, selecione uma data válida no calendário.");
-          return;
-      }
-
-      alert(`Sala:${sala_nome} matricula:${mat} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
-
-      const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&matricula=${mat}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
-
-      fetch(url, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-              sala_id: sala_id,
-              matricula:mat,
-              data_agendamento: data_agendamento,
-              horario_inicio: horario_inicio,
-              horario_fim: horario_fim,
-              personalizado: 0,
-          }),
-      })
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error(`Erro HTTP! status: ${response.status}`);
-              }
-              return response.json();
-          })
-          .then(data => {
-              console.log("Agendamento adicionado com sucesso:", data);
-              alert("Agendamento realizado com sucesso!");
-          })
-  } else {
-      alert("Por favor, preencha o campo matrícula corretamente.");
+  if (!button) {
+      console.error(`Botão com id btn-${id} não encontrado.`);
+      return;
   }
-}
+  const sala_nome = document.getElementsByClassName("card-title")[0].textContent;
+  const sala_id = button.getAttribute("data-sala-id");
+  const horario_inicio = button.getAttribute("data-ini");
+  const horario_fim = button.getAttribute("data-fin");
+  const personalizado = 0;
+
+  const selectedDay = document.querySelector(".day.selected");
+  const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
+  
+  if (!data_agendamento) {
+      alert("Por favor, selecione uma data válida no calendário.");
+      return;
+  }
+
+  alert(`Sala:${sala_nome} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
+
+  const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&matricula=${mat}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
+
+  fetch(url, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          sala_id: sala_id,
+          matricula:mat,
+          data_agendamento: data_agendamento,
+          horario_inicio: horario_inicio,
+          horario_fim: horario_fim,
+          personalizado: 0,
+      }),
+  })  
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(`Erro HTTP! status: ${response.status}`);
+          }else{
+            location.reload();
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log("Agendamento adicionado com sucesso:", data);
+          alert("Agendamento realizado com sucesso!");
+      })
+      
+} 
+
 
 
 function salvarHorarioPersonalizado(sala_id) {

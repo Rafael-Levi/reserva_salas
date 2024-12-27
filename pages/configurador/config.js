@@ -38,9 +38,6 @@ function excluir_registro(id) {
     });
 }
 
-
-
-
 fetch(url)
   .then(response => response.json())
   .then(reservas => {

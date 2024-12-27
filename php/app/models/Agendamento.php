@@ -71,7 +71,7 @@ class Agendamento
 
     public function adicionar($id_sala,$nome, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
     {
-        $sql = "INSERT INTO agendamentos (id_sala,matricula, data_agendamento, horario_inicio, horario_fim, personalizado)
+        $sql = "INSERT INTO agendamentos (id_sala,nome,funcao,matricula, data_agendamento, horario_inicio, horario_fim, personalizado)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
         $stmt = $this->conn->prepare($sql);
@@ -84,7 +84,7 @@ class Agendamento
         $stmt->bind_param(
             "iisssssi",
             $id_sala,
-            $nome.
+            $nome,
             $funcao,
             $matricula,
             $data_agendamento,

@@ -66,63 +66,74 @@ class AgendamentoController
         }
     }
 
-
     public function adicionarAgendamento()
     {
+        // Decodifica os dados recebidos no corpo da requisição
         $data = json_decode(file_get_contents('php://input'), true);
-
-        $rawInput = file_get_contents('php://input');
-
-        error_log("Dados brutos recebidos: " . $rawInput);
-
-        $data = json_decode($rawInput, true);
     
-        // Adicione esta validação para identificar problemas na entrada
-        if (!$data) {
-            echo json_encode(["success" => false, "message" => $data]);
-            return;
-        }
-        
-        if(
-            !isset($data['matricula'])
-        ){
-            $mat = $data['matricula'];
-            $matUrl = `http://ceneged150536.protheus.cloudtotvs.com.br:1739/rest/fluigepi/getSRA?RA_MAT=$mat`;
-
-            $ch = curl_init($matUrl);
-          
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Para obter a resposta da API
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Authorization: Basic YWRtaW46QEAyMDI0Y25n', // Header de autenticação
-             ));
-        }
-
-
-        // Verifica se todas as chaves obrigatórias estão presentes
-        if (
-            !isset($data['sala_id'],$data['nome'],$data['funcao'],$data['matricula'], $data['data_agendamento'], $data['horario_inicio'], $data['horario_fim'], $data['personalizado'])
-        ) {
-            echo json_encode(["success" => false, "message" => "Dados incompletos fornecidos."]);
+        if (!$data || !isset($data['matricula'], $data['sala_id'], $data['data_agendamento'], $data['horario_inicio'], $data['horario_fim'], $data['personalizado'])) {
+            echo json_encode(["success" => false, "message" => "Dados incompletos ou inválidos fornecidos."]);
             return;
         }
     
-        // Inicializa as variáveis com os dados recebidos
-        $id_sala = $data['sala_id'];
-        $nome = $data['nome'];
-        $funcao = $data['funcao'];
+        // Dados iniciais
         $matricula = $data['matricula'];
+        $matUrl = "http://ceneged150536.protheus.cloudtotvs.com.br:1739/rest/fluigepi/getSRA?RA_MAT=$matricula";
+    
+        // Configuração do cURL para consultar a API externa
+        $ch = curl_init($matUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Basic YWRtaW46QEAyMDI0Y25n',
+        ]);
+    
+        // Chamada à API
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+    
+        if (curl_errno($ch)) {
+            echo json_encode(["success" => false, "message" => "Erro na requisição cURL: " . curl_error($ch)]);
+            return;
+        }
+    
+        if ($httpCode !== 200) {
+            echo json_encode(["success" => false, "message" => "Erro HTTP na API externa: código $httpCode"]);
+            return;
+        }
+    
+        $apiData = json_decode($response, true);
+    
+        // Valida a estrutura do JSON retornado
+        if (
+            !$apiData ||
+            !isset($apiData['FUNCIONARIOS'][0]['RA_MAT'], $apiData['FUNCIONARIOS'][0]['RA_NOME'], $apiData['FUNCIONARIOS'][0]['RA_DESCFUN'])
+        ) {
+            echo json_encode(["success" => false, "message" => "Matrícula inválida."]);
+            return;
+        }
+    
+        // Dados retornados da API
+        $funcionario = $apiData['FUNCIONARIOS'][0];
+        $nome = $funcionario['RA_NOME'];
+        $funcao = $funcionario['RA_DESCFUN'];
+    
+        // Adiciona o agendamento no banco
+        $id_sala = $data['sala_id'];
         $data_agendamento = $data['data_agendamento'];
         $horario_inicio = $data['horario_inicio'];
         $horario_fim = $data['horario_fim'];
         $personalizado = $data['personalizado'] ? 1 : 0;
     
-        if ($this->agendamento->adicionar($id_sala,$nome,$funcao,$matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
+        if ($this->agendamento->adicionar($id_sala, $nome, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
             echo json_encode(["success" => true]);
         } else {
-            echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento"]);
+            echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento no banco de dados."]);
         }
-    }   
+    }
+    
+       
     
 
     public function excluirAgendamento()
