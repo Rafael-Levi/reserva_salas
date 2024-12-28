@@ -27,17 +27,17 @@ class SalaController
         }
     
         // Extraia os valores ou defina valores padrão
-        $nome = $data['nome'] ?? null;
+        $nome_salas = $data['nome_salas'] ?? null;
         $capacidade = $data['capacidade'] ?? null;
     
         // Verifique se os valores obrigatórios estão presentes
-        if (!$nome || !$capacidade) {
+        if (!$nome_salas || !$capacidade) {
             echo json_encode(["success" => false, "message" => "Nome ou capacidade não foram informados"]);
             return;
         }
     
         // Insira os dados no banco
-        if ($this->sala->adicionar($nome, (int) $capacidade)) {
+        if ($this->sala->adicionar($nome_salas, (int) $capacidade)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar sala"]);
@@ -49,10 +49,10 @@ class SalaController
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $id = $data['id'];
-        $nome = $data['nome'];
+        $nome_salas = $data['nome_salas'];
         $capacidade = $data['capacidade'];
 
-        if ($this->sala->editar($id, $nome, $capacidade)) {
+        if ($this->sala->editar($id, $nome_salas, $capacidade)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao editar sala"]);

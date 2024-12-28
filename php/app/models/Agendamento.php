@@ -28,12 +28,12 @@ class Agendamento
     public function listarReservas()
     {
         $sql = "SELECT agendamentos.id,
-                        agendamentos.nome,
+                        agendamentos.nome_users,
                         agendamentos.funcao,
                         agendamentos.data_agendamento,
                         agendamentos.horario_inicio,
                         agendamentos.horario_fim, 
-                        salas.nome 
+                        salas.nome_salas
                 FROM agendamentos 
                 LEFT JOIN salas 
                 ON agendamentos.id_sala = salas.id;";
@@ -69,9 +69,9 @@ class Agendamento
         return $row['total'] > 0; // Retorna true se existir algum conflito, false caso contrário
     }
 
-    public function adicionar($id_sala,$nome, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
+    public function adicionar($id_sala,$nome_users, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)
     {
-        $sql = "INSERT INTO agendamentos (id_sala,nome,funcao,matricula, data_agendamento, horario_inicio, horario_fim, personalizado)
+        $sql = "INSERT INTO agendamentos (id_sala,nome_users,funcao,matricula, data_agendamento, horario_inicio, horario_fim, personalizado)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
         $stmt = $this->conn->prepare($sql);
@@ -84,7 +84,7 @@ class Agendamento
         $stmt->bind_param(
             "iisssssi",
             $id_sala,
-            $nome,
+            $nome_users,
             $funcao,
             $matricula,
             $data_agendamento,

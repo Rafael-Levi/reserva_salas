@@ -186,7 +186,7 @@ function reservarSala(id) {
       console.error(`Botão com id btn-${id} não encontrado.`);
       return;
   }
-  const sala_nome = document.getElementsByClassName("card-title")[0].textContent;
+  const nome_salas = document.getElementsByClassName("card-title")[0].textContent;
   const sala_id = button.getAttribute("data-sala-id");
   const horario_inicio = button.getAttribute("data-ini");
   const horario_fim = button.getAttribute("data-fin");
@@ -200,7 +200,7 @@ function reservarSala(id) {
       return;
   }
 
-  alert(`Sala:${sala_nome} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
+  alert(`Sala:${nome_salas} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
 
   const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&matricula=${mat}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
 
@@ -383,8 +383,8 @@ fetch(urlSalas)
       card.innerHTML = `
       
       <div class="card-left">
-          <img src="${sala.foto}" alt="${sala.nome}" class="card-image">
-          <h3 class="card-title">${sala.nome}</h3>
+          <img src="${sala.foto}" alt="${sala.nome_salas}" class="card-image">
+          <h3 class="card-title">${sala.nome_salas}</h3>
           <p class="card-description">
             Capacidade: ${sala.capacidade} Pessoas
           </p>

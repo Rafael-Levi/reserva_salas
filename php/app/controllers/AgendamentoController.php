@@ -114,19 +114,18 @@ class AgendamentoController
             return;
         }
     
-        // Dados retornados da API
         $funcionario = $apiData['FUNCIONARIOS'][0];
-        $nome = $funcionario['RA_NOME'];
+        $nome_users = $funcionario['RA_NOME'];
         $funcao = $funcionario['RA_DESCFUN'];
-    
-        // Adiciona o agendamento no banco
+
+        $matricula = $data['matricula'];
         $id_sala = $data['sala_id'];
         $data_agendamento = $data['data_agendamento'];
         $horario_inicio = $data['horario_inicio'];
         $horario_fim = $data['horario_fim'];
         $personalizado = $data['personalizado'] ? 1 : 0;
     
-        if ($this->agendamento->adicionar($id_sala, $nome, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
+        if ($this->agendamento->adicionar($id_sala, $nome_users, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento no banco de dados."]);

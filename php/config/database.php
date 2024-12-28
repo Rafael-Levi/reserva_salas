@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Criar tabela de salas, se não existir
 $sqlSalas = "CREATE TABLE IF NOT EXISTS salas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
+    nome_salas VARCHAR(255) NOT NULL,
     capacidade INT NOT NULL,
     foto VARCHAR(255) NOT NULL
 );";
@@ -28,7 +28,7 @@ if (!$conn->query($sqlSalas)) {
 $sqlAgendamentos = "CREATE TABLE IF NOT EXISTS agendamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sala INT NOT NULL,
-    nome VARCHAR(255) NOT NULL,
+    nome_users VARCHAR(255) NOT NULL,
     funcao VARCHAR(255) NOT NULL,
     matricula VARCHAR(6) NOT NULL,
     data_agendamento DATE NOT NULL,

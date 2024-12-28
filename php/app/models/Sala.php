@@ -24,19 +24,19 @@ class Sala
         return $salas;
     }
 
-    public function adicionar($nome, $capacidade)
+    public function adicionar($nome_salas, $capacidade)
     {
-        $sql = "INSERT INTO salas (nome, capacidade) VALUES (?, ?)";
+        $sql = "INSERT INTO salas (nome_salas, capacidade) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("si", $nome, $capacidade);
+        $stmt->bind_param("si", $nome_salas, $capacidade);
         return $stmt->execute();
     }
 
-    public function editar($id, $nome, $capacidade)
+    public function editar($id, $nome_salas, $capacidade)
     {
-        $sql = "UPDATE salas SET nome = ?, capacidade = ? WHERE id = ?";
+        $sql = "UPDATE salas SET nome_salas = ?, capacidade = ? WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sii", $nome, $capacidade, $id);
+        $stmt->bind_param("sii", $nome_salas, $capacidade, $id);
         return $stmt->execute();
     }
 
