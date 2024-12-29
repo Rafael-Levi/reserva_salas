@@ -131,10 +131,45 @@ class AgendamentoController
             echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento no banco de dados."]);
         }
     }
-    
-       
-    
 
+
+    public function editarAgendamento()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+    
+        $id = $data['id'] ?? null;
+        $id_sala = $data['id_sala'] ?? null;
+        $data_agendamento = $data['data_agendamento'] ?? null;
+        $horario_inicio = $data['horario_inicio'] ?? null;
+        $horario_fim = $data['horario_fim'] ?? null;
+    
+        // Validações básicas
+        if (!$id || !$id_sala || !$data_agendamento || !$horario_inicio || !$horario_fim) {
+            echo json_encode(["success" => false, "message" => "Parâmetros inválidos ou faltando."]);
+            return;
+        }
+    
+        // Chama a verificação de conflitos
+        try {
+            $conflito = $this->agendamento->verificarHorario($id_sala, $data_agendamento, $horario_inicio, $horario_fim);
+    
+            if ($conflito) {
+                echo json_encode(["success" => false, "message" => "Conflito de horário detectado."]);
+                return;
+            }
+    
+            // Se não há conflitos, prossegue com a edição
+            if ($this->agendamento->editar_agendamento($id, $id_sala, $data_agendamento, $horario_inicio, $horario_fim)) {
+                echo json_encode(["success" => true, "message" => "Agendamento editado com sucesso."]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Erro ao editar agendamento."]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Erro ao verificar o horário.", "details" => $e->getMessage()]);
+        }
+    }
+    
+    
     public function excluirAgendamento()
     {
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

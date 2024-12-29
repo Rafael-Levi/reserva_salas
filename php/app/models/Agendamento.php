@@ -101,6 +101,15 @@ class Agendamento
         return true;
     }
   
+    public function editar_agendamento($id, $id_sala, $data_agendamento,$horario_inicio,$horario_fim)
+    {
+        $sql = "UPDATE agendamentos SET id_sala = ?, data_agendamento = ?, horario_inicio = ?, horario_fim = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("isssi",$id_sala,$data_agendamento,$horario_inicio,$horario_fim,$id);
+        return $stmt->execute();    
+    }
+
+
     public function excluir($id)
     {
         $sql = "DELETE FROM agendamentos WHERE id = ?";

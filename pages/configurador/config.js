@@ -48,6 +48,75 @@ function closePopup(id) {
 }
 
 
+function alterarReserva(reservaId) {
+  // Obtém os valores dos campos do formulário
+  const salaNome = document.querySelector(`#popup-${reservaId} #sala-nome`).value;
+  const horarioInicio = document.querySelector(`#popup-${reservaId} #horario-inicio`).value;
+  const horarioFim = document.querySelector(`#popup-${reservaId} #horario-fim`).value;
+
+  // Obtém a data de agendamento da linha correspondente à reserva
+  const dataAgendamento = document.getElementById(`data-agendamento-${reservaId}`).textContent;
+
+  // Valida se todos os campos foram preenchidos
+  if (!salaNome || !horarioInicio || !horarioFim || !dataAgendamento) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  // Mapeamento dos nomes das salas para seus respectivos IDs (caso necessário)
+  const salaMap = {
+    "Eclipse": 1,
+    "Beira-mar": 2,
+    "Por do sol": 3,
+    "Energia positiva": 4,
+    "Inovar": 5,
+    "Sala treinamento": 6,
+  };
+
+  // Converte o nome da sala para o ID
+  const salaId = salaMap[salaNome];
+  if (!salaId) {
+    alert("Sala selecionada é inválida.");
+    return;
+  }
+
+  // Define a URL do endpoint
+  const endpoint = `../../php/app/router.php?endpoint=editar_agendamento`;
+
+  // Monta o payload da requisição
+  const payload = {
+    id: reservaId,
+    id_sala: salaId,
+    data_agendamento: dataAgendamento.trim(),
+    horario_inicio: horarioInicio,
+    horario_fim: horarioFim,
+  };
+
+  // Envia a requisição PUT para o endpoint
+  fetch(endpoint, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.success) {
+        alert("Reserva alterada com sucesso!");
+        closePopup(reservaId); // Fecha o popup após sucesso
+        // Atualizar a UI ou realizar outra ação necessária
+        location.reload();
+      } else {
+        alert(`Erro ao alterar reserva: ${result.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao enviar a requisição:", error);
+      alert("Ocorreu um erro ao alterar a reserva. Tente novamente.");
+    });
+}
+
 
 fetch(url)
   .then(response => response.json())
@@ -72,7 +141,7 @@ fetch(url)
       row.innerHTML = `
         <p class="id-${reserva.id}" style="display: none;">${reserva.id}</p>
         <td>${reserva.nome_salas}</td>
-        <td>${reserva.data_agendamento}</td>
+        <td id="data-agendamento-${reserva.id}">${reserva.data_agendamento}</td>
         <td>${reserva.horario_inicio} - ${reserva.horario_fim}</td>
         <td>${reserva.nome_users}</td>
         <td class="actions">
@@ -103,7 +172,7 @@ fetch(url)
               <input type="time" id="horario-fim" name="horario-fim" required>
         
               <div class="popup-buttons">
-                <button type="submit" class="btn-confirm">Confirmar</button>
+                <button type="submit" class="btn-confirm" onclick="alterarReserva(${reserva.id})">Confirmar</button>
                 <button type="button" class="btn-cancel" onclick="closePopup(${reserva.id})">Cancelar</button>
               </div>
             </form>

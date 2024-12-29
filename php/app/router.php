@@ -4,15 +4,15 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/controllers/SalaController.php';
 require_once __DIR__ . '/controllers/AgendamentoController.php';
 
-header('Content-Type: application/json; charset=utf-8'); // Define o tipo de resposta como JSON
+header('Content-Type: application/json; charset=utf-8'); 
 
-// Conexão com o banco de dados
+
 $conn = require __DIR__ . '/../config/database.php';
 $salaController = new SalaController($conn);
 $agendamentoController = new AgendamentoController($conn);
 
-// Identifica o endpoint
-$endpoint = $_GET['endpoint'] ?? ''; // Simplificação usando null coalescing operator
+
+$endpoint = $_GET['endpoint'] ?? ''; 
 
 switch ($endpoint) {
     case 'salas': // GET: Listar salas
@@ -86,7 +86,17 @@ switch ($endpoint) {
             echo json_encode(["success" => false, "message" => "Método não permitido"]);
         }
         break;
-
+    
+    case 'editar_agendamento': // POST: Editar agendamento
+        case 'editar_agendamento':
+            if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                $agendamentoController->editarAgendamento();
+            } else {
+                http_response_code(405);
+                echo json_encode(["success" => false, "message" => "Método não permitido"]);
+            }   
+            break;
+        
     case 'excluir_agendamento': // POST: Excluir agendamento
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             $agendamentoController->excluirAgendamento();
@@ -96,8 +106,8 @@ switch ($endpoint) {
         }
         break;
 
-    default: // Endpoint inválido
-        http_response_code(404); // Código de erro para recurso não encontrado
+    default: 
+        http_response_code(404); 
         echo json_encode(["success" => false, "message" => "Endpoint inválido"]);
         break;
 }
