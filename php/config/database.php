@@ -35,6 +35,7 @@ $sqlAgendamentos = "CREATE TABLE IF NOT EXISTS agendamentos (
     horario_inicio TIME NOT NULL,
     horario_fim TIME NOT NULL,
     personalizado INT NOT NULL,
+    status INT NOT NULL DEFAULT 0,
     FOREIGN KEY (id_sala) REFERENCES salas(id)
 );";
 

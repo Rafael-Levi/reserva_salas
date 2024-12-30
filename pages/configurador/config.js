@@ -117,6 +117,56 @@ function alterarReserva(reservaId) {
     });
 }
 
+function atualizarStatus() {
+  const rows = document.querySelectorAll('#content-agendamento tr');
+
+  rows.forEach(row => {
+    const idEl = row.querySelector('p[class^="id-"]');
+    const reservaId = idEl.className.split('-')[1];
+    const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
+    const horarioCell = row.querySelector('td:nth-child(3)');
+    const statusCell = row.querySelector('td[status]');
+
+    if (!dataAgendamentoEl || !horarioCell || !statusCell) {
+      console.error(`Dados incompletos para a reserva ID ${reservaId}`);
+      return;
+    }
+
+    const dataAgendamento = dataAgendamentoEl.textContent.trim();
+    const [horarioInicio, horarioFim] = horarioCell.textContent.split(" - ").map(h => h.trim());
+    const status = statusCell.getAttribute('status');
+
+    // Converte data para formato ISO (YYYY-MM-DD)
+    const dataISO = dataAgendamento.split('/').reverse().join('-'); // "DD/MM/YYYY" -> "YYYY-MM-DD"
+
+    // Cria objetos Date válidos
+    const inicioAgendamento = new Date(`${dataISO}T${horarioInicio}`);
+    const fimAgendamento = new Date(`${dataISO}T${horarioFim}`);
+    const agora = new Date();
+
+    console.log("Data ISO:", dataISO, "Fim:", fimAgendamento, "Agora:", agora);
+
+    let statusTexto = "";
+    if (status === "0") {
+      if (fimAgendamento > agora) {
+        statusTexto = "Pendente";
+      } else {
+        statusTexto = "Ausente";
+      }
+    } else if (status === "1") {
+      statusTexto = "Presente";
+    }
+
+    statusCell.textContent = statusTexto;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", atualizarStatus);
+
+
+
+
+
 
 fetch(url)
   .then(response => response.json())
@@ -144,6 +194,7 @@ fetch(url)
         <td id="data-agendamento-${reserva.id}">${reserva.data_agendamento}</td>
         <td>${reserva.horario_inicio} - ${reserva.horario_fim}</td>
         <td>${reserva.nome_users}</td>
+        <td status="${reserva.status}"></td>
         <td class="actions">
           <button class="btn-edit" id="btn-edit-${reserva.id}" onclick="openPopup(${reserva.id})">Editar</button>
           <button onclick="excluir_registro(${reserva.id})" class="btn-excluir" id="btn-excluir=${reserva.id}">Excluir</button>
@@ -182,6 +233,7 @@ fetch(url)
 
       container.appendChild(row);
     });
+    atualizarStatus();
   })
   .catch(error => {
     console.error("Erro ao carregar as reservas:", error);

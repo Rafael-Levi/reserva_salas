@@ -33,6 +33,7 @@ class Agendamento
                         agendamentos.data_agendamento,
                         agendamentos.horario_inicio,
                         agendamentos.horario_fim, 
+                        agendamentos.status,
                         salas.nome_salas
                 FROM agendamentos 
                 LEFT JOIN salas 
@@ -99,6 +100,15 @@ class Agendamento
         }
     
         return true;
+    }
+
+
+    public function check($id)
+    {
+        $sql = "UPDATE agendamentos SET status = 1 WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i",$id);
+        return $stmt->execute();
     }
   
     public function editar_agendamento($id, $id_sala, $data_agendamento,$horario_inicio,$horario_fim)

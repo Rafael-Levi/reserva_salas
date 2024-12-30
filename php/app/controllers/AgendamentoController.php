@@ -169,7 +169,26 @@ class AgendamentoController
         }
     }
     
+    public function check_agendamento()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
     
+        $id = $data['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode(["success" => false, "message" => "Parâmetros inválidos ou faltando."]);
+            return;
+        }
+
+        if ($this->agendamento->check($id)) {
+            echo json_encode(["success" => true, "message" => "Agendamento editado com sucesso."]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Erro ao editar agendamento."]);
+        }
+
+    }
+
+
     public function excluirAgendamento()
     {
         $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

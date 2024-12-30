@@ -96,6 +96,15 @@ switch ($endpoint) {
                 echo json_encode(["success" => false, "message" => "Método não permitido"]);
             }   
             break;
+    
+    case 'check':
+        if( $_SERVER['REQUEST_METHOD'] === 'PUT'){
+            $agendamentoController->check_agendamento();
+        }else{
+            http_response_code(405);
+            echo json_decode(["success" => false, "message" => "Método não permitido"]);
+        }
+        break;
         
     case 'excluir_agendamento': // POST: Excluir agendamento
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
