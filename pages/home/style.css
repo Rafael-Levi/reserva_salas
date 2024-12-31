@@ -216,102 +216,135 @@ nav{
   cursor: not-allowed;
 }
 
-.time-slot-perso{
-  background-color: #333;
-  color: white;
-  padding:1rem;
-  height: 3rem;
-  width: 9rem;
-  border-radius: 5px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
+/* Botão de Personalizar */
+.time-slot-perso {
   background-color: #50717b;
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+  padding: 0.8rem 1.2rem;
+  height: auto;
+  width: auto;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: bold;
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease-in-out;
+  border: none;
 }
 
-.div-per{
-  grid-column: span 3; 
+.time-slot-perso:hover {
+  background-color: #3a4042;
+  transform: scale(1.05);
+}
+
+/* Container do Botão */
+.div-per {
+  grid-column: span 3;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px; 
-}
-.time-slot-perso{
-   
-  width: 100%;
-  
+  margin-top: 20px;
 }
 
 /* Popup Container */
 .popup-personalizar {
-  width: 100%; /* Ocupa toda a largura disponível */
-  max-width: 600px; /* Limita a largura em telas maiores */
-  margin: 10px auto; /* Centraliza a popup */
-  padding: 1rem; /* Adiciona espaçamento interno */
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
+  display: none;
+  background-color: #333;
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Cabeçalho da Tabela */
 .table-header th {
-  background-color: #73b2c6;
+  background-color: #8ecccc;
   padding: 12px;
   font-size: 1rem;
+  font-weight: bold;
   color: #ffffff;
-  border-radius: 5px;
+  border-radius: 8px;
+  text-align: center;
 }
 
 /* Input de Tempo */
-.popup-personalizar-content input[type="time"] {
-  width: 80%;
-  padding: 10px;
-  margin: 15px;
+.popup-personalizar-content input[type="time"],
+.popup-personalizar-content input[type="text"] {
+  width: 90%;
+  padding: 12px;
+  margin: 15px auto;
   font-size: 1rem;
   border: 2px solid #73b2c6;
-  border-radius: 5px;
+  border-radius: 8px;
   text-align: center;
-  background-color: #fff;
+  background-color: #f9f9f9;
   color: #333;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out;
+}
+
+.popup-personalizar-content input[type="time"]:focus,
+.popup-personalizar-content input[type="text"]:focus {
+  border-color: #50717b;
+  outline: none;
 }
 
 /* Botões */
 .actions {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
 .btn, .bnt-danger {
-  padding: 10px 20px;
-  margin: 10px 5px;
+  padding: 12px 25px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: bold;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .btn {
   background-color: #8ecccc;
 }
 
+.btn:hover {
+  background-color: #73b2c6;
+  transform: translateY(-2px);
+}
+
 .bnt-danger {
   background-color: #e74c3c;
 }
 
-.btn:hover {
-  background-color: #357ab7;
-}
-
 .bnt-danger:hover {
   background-color: #c0392b;
+  transform: translateY(-2px);
 }
+
 
 
 .popup {
@@ -390,25 +423,23 @@ nav{
 }
 
 
-/* Responsividade para tablets (largura máxima de 768px) */
 @media screen and (max-width: 768px) {
   .navbar {
-    flex-direction: column;
     text-align: center;
   }
 
   .card {
     flex-direction: column;
-    max-width: 90%; /* Reduz a largura no tablet */
+    max-width: 90%; 
     padding: 15px;
   }
 
   .card-left {
-    margin-right: 0; /* Remove a margem para alinhar os elementos */
+    margin-right: 0;
   }
 
   .card-image {
-    width: 100%; /* Ajusta a imagem para ocupar a largura disponível */
+    width: 100%;
     height: auto;
   }
 
@@ -417,112 +448,112 @@ nav{
   }
 
   .horario {
-    grid-template-columns: repeat(2, 1fr); /* Ajusta para 2 colunas no tablet */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px;
   }
 
   .time-slot {
-    width: 100%; /* Botões ocupam toda a largura */
+    width: 100%; 
     height: auto;
     font-size: 14px;
   }
 }
 
-/* Responsividade para celulares (largura máxima de 480px) */
+
 @media screen and (max-width: 480px) {
   .navbar {
-    flex-direction: column;
+    
     text-align: center;
     padding: 1rem;
   }
 
   .card {
     flex-direction: column;
-    max-width: 100%; /* Ocupa 100% da tela */
+    max-width: 100%; 
     padding: 10px;
   }
 
   .card-image {
-    width: 100%; /* Ajusta a imagem para ser responsiva */
+    width: 100%; 
     height: auto;
   }
 
   .card-title {
-    font-size: 20px; /* Reduz o tamanho do título */
+    font-size: 20px; 
   }
 
   .card-description {
-    font-size: 16px; /* Reduz o tamanho da descrição */
+    font-size: 16px; 
   }
 
   .horario {
-    grid-template-columns: 1fr; /* Ajusta para uma única coluna no celular */
+    grid-template-columns: 1fr; 
     gap: 10px;
   }
 
   .time-slot {
     width: 100%;
     font-size: 12px;
-    padding: 10px; /* Ajusta o preenchimento */
+    padding: 10px; 
   }
 
   .popup-content {
-    width: 90%; /* Ajusta a largura do popup */
+    width: 90%; 
     margin: auto;
   }
 }
 
 @media screen and (max-width: 1024px) {
   .popup-personalizar {
-    width: 90%; /* Ocupa 90% da largura */
+    width: 90%; 
     max-width: 500px;
   }
 
   .popup-personalizar-content input[type="time"] {
-    width: 90%; /* Ajusta a largura dos inputs */
-    margin: 10px auto; /* Centraliza os inputs */
+    width: 90%; 
+    margin: 10px auto; 
   }
 
   .actions {
     display: flex;
-    flex-direction: column; /* Coloca os botões em coluna */
+    flex-direction: column; 
     align-items: center;
-    gap: 10px; /* Adiciona espaçamento entre os botões */
+    gap: 10px; 
   }
 
   .btn, .bnt-danger {
-    width: 90%; /* Ajusta a largura dos botões */
-    font-size: 0.9rem; /* Reduz o tamanho da fonte */
+    width: 90%; 
+    font-size: 0.9rem; 
   }
 }
 
-/* Responsividade para Telas Pequenas (Celulares) */
+
 @media screen and (max-width: 768px) {
   .popup-personalizar {
-    width: 95%; /* Ocupa quase toda a largura */
+    width: 95%; 
     max-width: 400px;
     padding: 1rem;
   }
 
   .popup-personalizar-content {
-    font-size: 0.9rem; /* Reduz o tamanho geral da fonte */
+    font-size: 0.9rem; 
   }
 
   .popup-personalizar-content input[type="time"] {
-    font-size: 0.9rem; /* Reduz a fonte nos inputs */
-    padding: 8px; /* Ajusta o espaçamento interno */
+    font-size: 0.9rem; 
+    padding: 8px; 
   }
 
   .table-header th {
-    font-size: 0.85rem; /* Reduz o tamanho do texto do cabeçalho */
+    font-size: 0.85rem; 
   }
 
   .actions {
-    gap: 8px; /* Reduz o espaçamento entre os botões */
+    gap: 8px; 
   }
 
   .btn, .bnt-danger {
-    padding: 8px 15px; /* Ajusta o espaçamento interno */
-    font-size: 0.85rem; /* Reduz o tamanho da fonte */
+    padding: 8px 15px; 
+    font-size: 0.85rem; 
   }
 }

@@ -175,6 +175,8 @@ function validarReserva(sala_id,data_agendamento,horario_inicio,horario_fim){
 
 
 
+
+
 function reservarSala(id) {
   const mat = document.getElementById(`mat-${id}`)?.value.trim();
   const button = document.getElementById(`btn-${id}`);
@@ -239,6 +241,8 @@ function salvarHorarioPersonalizado(sala_id) {
   // Seleciona os inputs de horário de início e término
   const popup = document.getElementById(`popup-perso-${sala_id}`);
   const inputs = popup.querySelectorAll("input[type='time']");
+  const mat = document.getElementById(`descricao-perso-${sala_id}`)?.value.trim();
+
   
   if (!inputs || inputs.length < 2) {
     alert("Por favor, preencha os horários de início e término corretamente.");
@@ -271,9 +275,9 @@ function salvarHorarioPersonalizado(sala_id) {
     
       if (!validarReserva) {
         alert("Já existe um agendamento nesse horário. Escolha outro horário.");
-      } else {
+      }else{
         // Se não houver conflito, salva o agendamento
-        const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=1`;
+        const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento`;
 
         fetch(urlSalvar, {
           method: "POST",
@@ -282,6 +286,7 @@ function salvarHorarioPersonalizado(sala_id) {
           },
           body: JSON.stringify({
             sala_id: sala_id,
+            matricula:mat,
             data_agendamento: data_agendamento,
             horario_inicio: horario_inicio,
             horario_fim: horario_fim,
@@ -417,42 +422,47 @@ fetch(urlSalas)
           </div>
           `).join('')}
 
-        </div>
-          <div class="div-per">
-            <button 
-              class="time-slot-perso" 
-              onclick="openPopupPersonalisarHorario(${sala.id})" 
-              id="btn-perso-${sala.id}">
-              Personalizar
-            </button>
-            <div class="popup-personalizar" id="popup-perso-${sala.id}" style="display: none;">
-              <table class="popup-personalizar-content">
-                <thead>
-                  <tr class="table-header">
-                    <th class="table-header-l">Horário de Início</th>
-                    <th class="table-header-r">Horário de Término</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <input type="time" id="inicio-perso-${sala.id}" required>
-                    </td>
-                    <td>
-                      <input type="time" id="fim-perso-${sala.id}" required>
-                    </td>
-                    <td class="actions">
-                      <button class="btn" onclick="salvarHorarioPersonalizado(${sala.id})">Salvar</button>
-                      <button class="bnt-danger" onclick="closePopupPersonalisarHorario(${sala.id})">Sair</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+<div class="div-per">
+  <button 
+    class="time-slot-perso" 
+    onclick="openPopupPersonalisarHorario(${sala.id})" 
+    id="btn-perso-${sala.id}">
+    Personalizar
+  </button>
+  <div class="popup-personalizar" id="popup-perso-${sala.id}" style="display: none;">
+    <table class="popup-personalizar-content">
+      <thead>
+        <tr class="table-header">
+          <th class="table-header-l">Horário de Início</th>
+          <th class="table-header-r">Horário de Término</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="time" id="inicio-perso-${sala.id}" required>
+          </td>
+          <td>
+            <input type="time" id="fim-perso-${sala.id}" required>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <label for="descricao-perso-${sala.id}">Matricula:</label>
+            <input type="text" id="descricao-perso-${sala.id}" placeholder="Digite sua matrícula" required>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="actions">
+            <button class="btn" onclick="salvarHorarioPersonalizado(${sala.id})">Salvar</button>
+            <button class="bnt-danger" onclick="closePopupPersonalisarHorario(${sala.id})">Sair</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-        </div>
-      </div>
 
       `;
     
