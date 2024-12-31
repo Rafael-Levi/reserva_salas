@@ -118,53 +118,53 @@ function alterarReserva(reservaId) {
 }
 
 function atualizarStatus() {
+  // Seleciona todas as linhas da tabela no tbody #content-agendamento
   const rows = document.querySelectorAll('#content-agendamento tr');
 
   rows.forEach(row => {
+    // Identifica os elementos relevantes da linha
     const idEl = row.querySelector('p[class^="id-"]');
-    const reservaId = idEl.className.split('-')[1];
+    const reservaId = idEl.className.split('-')[1]; // Extrai o ID da reserva
     const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
     const horarioCell = row.querySelector('td:nth-child(3)');
     const statusCell = row.querySelector('td[status]');
 
+    // Valida se todos os dados necessários estão presentes
     if (!dataAgendamentoEl || !horarioCell || !statusCell) {
       console.error(`Dados incompletos para a reserva ID ${reservaId}`);
       return;
     }
 
-    const dataAgendamento = dataAgendamentoEl.textContent.trim();
+    // Extrai valores dos elementos
+    const dataAgendamento = dataAgendamentoEl.textContent.trim(); // Formato esperado: YYYY-MM-DD
     const [horarioInicio, horarioFim] = horarioCell.textContent.split(" - ").map(h => h.trim());
-    const status = statusCell.getAttribute('status');
+    const status = statusCell.getAttribute('status'); // Valor esperado: "0" ou "1"
 
-    // Converte data para formato ISO (YYYY-MM-DD)
-    const dataISO = dataAgendamento.split('/').reverse().join('-'); // "DD/MM/YYYY" -> "YYYY-MM-DD"
-
-    // Cria objetos Date válidos
-    const inicioAgendamento = new Date(`${dataISO}T${horarioInicio}`);
-    const fimAgendamento = new Date(`${dataISO}T${horarioFim}`);
+    // Obtém a data e hora atuais
     const agora = new Date();
 
-    console.log("Data ISO:", dataISO, "Fim:", fimAgendamento, "Agora:", agora);
+    // Cria objetos Date para comparação
+    const fimAgendamento = new Date(`${dataAgendamento}T${horarioFim}`);
 
+    console.log(`Reserva ID ${reservaId}: Data Agendamento ${dataAgendamento}, Hora Fim ${horarioFim}, Agora ${agora}`);
+
+    // Determina o status com base na lógica fornecida
     let statusTexto = "";
     if (status === "0") {
       if (fimAgendamento > agora) {
         statusTexto = "Pendente";
       } else {
-        statusTexto = "Ausente";
+        statusTexto = "Pendente";
       }
     } else if (status === "1") {
       statusTexto = "Presente";
+      row.style.backgroundColor = "#d4edda";
     }
 
+    // Atualiza o texto do status na célula correspondente
     statusCell.textContent = statusTexto;
   });
 }
-
-document.addEventListener("DOMContentLoaded", atualizarStatus);
-
-
-
 
 
 

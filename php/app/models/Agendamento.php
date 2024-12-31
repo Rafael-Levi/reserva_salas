@@ -28,16 +28,17 @@ class Agendamento
     public function listarReservas()
     {
         $sql = "SELECT agendamentos.id,
-                        agendamentos.nome_users,
-                        agendamentos.funcao,
-                        agendamentos.data_agendamento,
-                        agendamentos.horario_inicio,
-                        agendamentos.horario_fim, 
-                        agendamentos.status,
-                        salas.nome_salas
-                FROM agendamentos 
+                agendamentos.nome_users,
+                agendamentos.funcao,
+                agendamentos.data_agendamento,
+                agendamentos.horario_inicio,
+                agendamentos.horario_fim, 
+                agendamentos.status,
+                salas.nome_salas
+                FROM agendamentos
                 LEFT JOIN salas 
-                ON agendamentos.id_sala = salas.id;";
+                ON agendamentos.id_sala = salas.id
+                WHERE CONCAT(agendamentos.data_agendamento, ' ', agendamentos.horario_fim) > NOW();";
         
         $result = $this->conn->query($sql);
         $reservas = [];

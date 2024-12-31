@@ -1,10 +1,10 @@
-/* styles.css */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #121212;
   color: #ffffffcb;
 }
+
 nav{
   display: flex;
   flex-direction: row;
@@ -252,18 +252,12 @@ nav{
 
 /* Popup Container */
 .popup-personalizar {
-  display: none; /* Escondido inicialmente */
-  background-color: #333;
-  padding: 0.5rem;
-  border-radius: 8px;
-  position: relative;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
-  text-align: center;
-  color: #fff;
-  font-family: Arial, sans-serif;
+  width: 100%; /* Ocupa toda a largura disponível */
+  max-width: 600px; /* Limita a largura em telas maiores */
+  margin: 10px auto; /* Centraliza a popup */
+  padding: 1rem; /* Adiciona espaçamento interno */
+  box-sizing: border-box;
 }
-
 /* Cabeçalho da Tabela */
 .table-header th {
   background-color: #73b2c6;
@@ -393,4 +387,142 @@ nav{
 
 .btn-close:hover {
   background-color: #8ecccc;
+}
+
+
+/* Responsividade para tablets (largura máxima de 768px) */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .card {
+    flex-direction: column;
+    max-width: 90%; /* Reduz a largura no tablet */
+    padding: 15px;
+  }
+
+  .card-left {
+    margin-right: 0; /* Remove a margem para alinhar os elementos */
+  }
+
+  .card-image {
+    width: 100%; /* Ajusta a imagem para ocupar a largura disponível */
+    height: auto;
+  }
+
+  .card-right {
+    padding: 1rem;
+  }
+
+  .horario {
+    grid-template-columns: repeat(2, 1fr); /* Ajusta para 2 colunas no tablet */
+    gap: 15px;
+  }
+
+  .time-slot {
+    width: 100%; /* Botões ocupam toda a largura */
+    height: auto;
+    font-size: 14px;
+  }
+}
+
+/* Responsividade para celulares (largura máxima de 480px) */
+@media screen and (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .card {
+    flex-direction: column;
+    max-width: 100%; /* Ocupa 100% da tela */
+    padding: 10px;
+  }
+
+  .card-image {
+    width: 100%; /* Ajusta a imagem para ser responsiva */
+    height: auto;
+  }
+
+  .card-title {
+    font-size: 20px; /* Reduz o tamanho do título */
+  }
+
+  .card-description {
+    font-size: 16px; /* Reduz o tamanho da descrição */
+  }
+
+  .horario {
+    grid-template-columns: 1fr; /* Ajusta para uma única coluna no celular */
+    gap: 10px;
+  }
+
+  .time-slot {
+    width: 100%;
+    font-size: 12px;
+    padding: 10px; /* Ajusta o preenchimento */
+  }
+
+  .popup-content {
+    width: 90%; /* Ajusta a largura do popup */
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .popup-personalizar {
+    width: 90%; /* Ocupa 90% da largura */
+    max-width: 500px;
+  }
+
+  .popup-personalizar-content input[type="time"] {
+    width: 90%; /* Ajusta a largura dos inputs */
+    margin: 10px auto; /* Centraliza os inputs */
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column; /* Coloca os botões em coluna */
+    align-items: center;
+    gap: 10px; /* Adiciona espaçamento entre os botões */
+  }
+
+  .btn, .bnt-danger {
+    width: 90%; /* Ajusta a largura dos botões */
+    font-size: 0.9rem; /* Reduz o tamanho da fonte */
+  }
+}
+
+/* Responsividade para Telas Pequenas (Celulares) */
+@media screen and (max-width: 768px) {
+  .popup-personalizar {
+    width: 95%; /* Ocupa quase toda a largura */
+    max-width: 400px;
+    padding: 1rem;
+  }
+
+  .popup-personalizar-content {
+    font-size: 0.9rem; /* Reduz o tamanho geral da fonte */
+  }
+
+  .popup-personalizar-content input[type="time"] {
+    font-size: 0.9rem; /* Reduz a fonte nos inputs */
+    padding: 8px; /* Ajusta o espaçamento interno */
+  }
+
+  .table-header th {
+    font-size: 0.85rem; /* Reduz o tamanho do texto do cabeçalho */
+  }
+
+  .actions {
+    gap: 8px; /* Reduz o espaçamento entre os botões */
+  }
+
+  .btn, .bnt-danger {
+    padding: 8px 15px; /* Ajusta o espaçamento interno */
+    font-size: 0.85rem; /* Reduz o tamanho da fonte */
+  }
 }
