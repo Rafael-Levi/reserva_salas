@@ -117,7 +117,7 @@ class AgendamentoController
         $funcionario = $apiData['FUNCIONARIOS'][0];
         $nome_users = $funcionario['RA_NOME'];
         $funcao = $funcionario['RA_DESCFUN'];
-
+    
         $matricula = $data['matricula'];
         $id_sala = $data['sala_id'];
         $data_agendamento = $data['data_agendamento'];
@@ -126,11 +126,12 @@ class AgendamentoController
         $personalizado = $data['personalizado'] ? 1 : 0;
     
         if ($this->agendamento->adicionar($id_sala, $nome_users, $funcao, $matricula, $data_agendamento, $horario_inicio, $horario_fim, $personalizado)) {
-            echo json_encode(["success" => true]);
+            echo json_encode(["success" => true, "message" => "Agendamento adicionado com sucesso!"]);
         } else {
             echo json_encode(["success" => false, "message" => "Erro ao adicionar agendamento no banco de dados."]);
         }
     }
+    
 
 
     public function editarAgendamento()

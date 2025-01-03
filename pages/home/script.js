@@ -143,107 +143,95 @@ function closePopupPersonalisarHorario(id) {
 }
 
 
-function validarReserva(sala_id,data_agendamento,horario_inicio,horario_fim){
-  verficarHorarioUrl = `../../php/app/router.php?endpoint=verificar_horario&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}`
-  
-  fetch(verficarHorarioUrl)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Erro HTTP! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data && typeof data.conflito !== "undefined") {
-            if (data.conflito) {
-                alert("Este horário já está ocupado. Por favor, escolha outro horário.");
-            } else {
-                return false;
-            }
-        } else {
-            throw new Error("Formato de resposta inválido.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro ao verificar disponibilidade de horário:", error);
-        alert("Erro ao verificar a disponibilidade do horário. Tente novamente.");
-    });
+async function validarReserva(sala_id, data_agendamento, horario_inicio, horario_fim) {
+  const verificarHorarioUrl = `../../php/app/router.php?endpoint=verificar_horario&sala_id=${sala_id}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}`;
 
+  try {
+    const response = await fetch(verificarHorarioUrl);
+    if (!response.ok) {
+      throw new Error(`Erro HTTP! status: ${response.status}`);
+    }
 
-
+    const data = await response.json();
+    if (data && typeof data.conflito !== "undefined") {
+      return data.conflito; // Retorna true se há conflito, false se não há
+    } else {
+      throw new Error("Formato de resposta inválido.");
+    }
+  } catch (error) {
+    console.error("Erro ao verificar disponibilidade de horário:", error);
+    alert("Erro ao verificar a disponibilidade do horário. Tente novamente.");
+    return true; // Assume conflito em caso de erro para evitar agendamentos inválidos
+  }
 }
-
-
-
 
 
 function reservarSala(id) {
   const mat = document.getElementById(`mat-${id}`)?.value.trim();
   const button = document.getElementById(`btn-${id}`);
   if (!mat) {
-      alert("Por favor, preencha o campo matrícula corretamente.");
-      return;
+    alert("Por favor, preencha o campo matrícula corretamente.");
+    return;
   }
   if (!button) {
-      console.error(`Botão com id btn-${id} não encontrado.`);
-      return;
+    console.error(`Botão com id btn-${id} não encontrado.`);
+    return;
   }
+
   const nome_salas = document.getElementsByClassName("card-title")[0].textContent;
   const sala_id = button.getAttribute("data-sala-id");
   const horario_inicio = button.getAttribute("data-ini");
   const horario_fim = button.getAttribute("data-fin");
-  const personalizado = 0;
 
   const selectedDay = document.querySelector(".day.selected");
   const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
-  
+
   if (!data_agendamento) {
-      alert("Por favor, selecione uma data válida no calendário.");
-      return;
+    alert("Por favor, selecione uma data válida no calendário.");
+    return;
   }
 
-  alert(`Sala:${nome_salas} agendada para:${data_agendamento} | início: ${horario_inicio} | fim: ${horario_fim}`);
-
-  const url = `../../php/app/router.php?endpoint=adicionar_agendamento&sala_id=${sala_id}&matricula=${mat}&data_agendamento=${data_agendamento}&horario_inicio=${horario_inicio}&horario_fim=${horario_fim}&personalizado=${personalizado}`;
+  const url = `../../php/app/router.php?endpoint=adicionar_agendamento`;
 
   fetch(url, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-          sala_id: sala_id,
-          matricula:mat,
-          data_agendamento: data_agendamento,
-          horario_inicio: horario_inicio,
-          horario_fim: horario_fim,
-          personalizado: 0,
-      }),
-  })  
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(`Erro HTTP! status: ${response.status}`);
-          }else{
-            location.reload();
-          }
-          return response.json();
-      })
-      .then(data => {
-          console.log("Agendamento adicionado com sucesso:", data);
-          alert("Agendamento realizado com sucesso!");
-      })
-      
-} 
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      sala_id: sala_id,
+      matricula: mat,
+      data_agendamento: data_agendamento,
+      horario_inicio: horario_inicio,
+      horario_fim: horario_fim,
+      personalizado: 0,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Erro HTTP! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        console.log("Agendamento adicionado com sucesso:", data);
+        alert(data.message);
+        location.reload();
+      } else {
+        alert(data.message || "Erro desconhecido.");
+      }
+    })
+}
+
+ 
 
 
-
-function salvarHorarioPersonalizado(sala_id) {
-  // Seleciona os inputs de horário de início e término
+async function salvarHorarioPersonalizado(sala_id) {
   const popup = document.getElementById(`popup-perso-${sala_id}`);
   const inputs = popup.querySelectorAll("input[type='time']");
   const mat = document.getElementById(`descricao-perso-${sala_id}`)?.value.trim();
 
-  
   if (!inputs || inputs.length < 2) {
     alert("Por favor, preencha os horários de início e término corretamente.");
     return;
@@ -252,7 +240,6 @@ function salvarHorarioPersonalizado(sala_id) {
   const horario_inicio = inputs[0].value;
   const horario_fim = inputs[1].value;
 
-  // Captura a data selecionada no calendário
   const selectedDay = document.querySelector(".day.selected");
   const data_agendamento = selectedDay ? selectedDay.getAttribute("data-date") : null;
 
@@ -260,49 +247,49 @@ function salvarHorarioPersonalizado(sala_id) {
     alert("Por favor, selecione uma data válida no calendário.");
     return;
   }
-  
-  if (!data_agendamento) {
-    alert("Por favor, selecione uma data válida no calendário.");
-    return;
-  }
-  // Validação dos horários preenchidos
+
   if (!horario_inicio || !horario_fim || horario_inicio >= horario_fim) {
     alert("Por favor, insira horários válidos.");
     return;
   }
 
-  validarReserva(sala_id, data_agendamento, horario_inicio, horario_fim);
-    
-      if (!validarReserva) {
-        alert("Já existe um agendamento nesse horário. Escolha outro horário.");
-      }else{
-        // Se não houver conflito, salva o agendamento
-        const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento`;
+  // Aguarda a validação de forma assíncrona
+  const conflito = await validarReserva(sala_id, data_agendamento, horario_inicio, horario_fim);
 
-        fetch(urlSalvar, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            sala_id: sala_id,
-            matricula:mat,
-            data_agendamento: data_agendamento,
-            horario_inicio: horario_inicio,
-            horario_fim: horario_fim,
-            personalizado: 1,
-          }),
-        })
-          .then(data => {
-            console.log("Agendamento personalizado adicionado com sucesso:", data);
-            alert("Agendamento realizado com sucesso!");
-            closePopupPersonalisarHorario(sala_id); // Fecha o popup após salvar
-          })
-          .catch(error => {
-            console.error("Erro ao adicionar o agendamento personalizado:", error);
-            alert("Erro ao realizar o agendamento. Tente novamente.");
-          });
-      }
+  if (conflito) {
+    alert("Já existe um agendamento nesse horário. Escolha outro horário.");
+    return;
+  }
+
+  // Se não houver conflito, salva o agendamento
+  const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento`;
+
+  try {
+    const response = await fetch(urlSalvar, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sala_id: sala_id,
+        matricula: mat,
+        data_agendamento: data_agendamento,
+        horario_inicio: horario_inicio,
+        horario_fim: horario_fim,
+        personalizado: 1,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao salvar: ${response.statusText}`);
+    }
+
+    alert("Agendamento realizado com sucesso!");
+    closePopupPersonalisarHorario(sala_id);
+  } catch (error) {
+    console.error("Erro ao adicionar o agendamento personalizado:", error);
+    alert("Erro ao realizar o agendamento. Tente novamente.");
+  }
 }
 
 
@@ -406,6 +393,7 @@ fetch(urlSalas)
               data-ini="${horario.ini}" 
               data-fin="${horario.fin}">
               ${horario.ini} - ${horario.fin}
+              
             </button>
             
 
