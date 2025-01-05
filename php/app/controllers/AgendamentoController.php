@@ -111,7 +111,7 @@ class AgendamentoController
             !isset($apiData['FUNCIONARIOS'][0]['RA_MAT'], $apiData['FUNCIONARIOS'][0]['RA_NOME'], $apiData['FUNCIONARIOS'][0]['RA_DESCFUN'])
         ) {
             echo json_encode(["success" => false, "message" => "Matrícula inválida."]);
-            return;
+            return false;
         }
     
         $funcionario = $apiData['FUNCIONARIOS'][0];
@@ -132,7 +132,6 @@ class AgendamentoController
         }
     }
     
-
 
     public function editarAgendamento()
     {

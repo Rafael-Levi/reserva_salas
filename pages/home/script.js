@@ -104,7 +104,38 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const userButton = document.getElementById("personal-area");
+  const userClose = document.getElementById("close-popup-user");
+  const userPopup = document.getElementById("popup-user");
+  const submit = document.getElementById("registration-user")
+ 
+  // Abre o pop-up
+  userButton.addEventListener("click", () => {
+    userPopup.style.display = "flex";
+    userPopup.body.style.overflow = "hidden";
+  });
 
+  userClose.addEventListener("click", () => {
+    userPopup.style.display = "none";
+    userPopup.body.style.overflow = "auto"; 
+  });
+
+  // Valida o formulário e redireciona
+    submit.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const mat = document.getElementById("mat-user").value.trim();
+    
+
+    if (mat == 'rafael' ) {
+      window.alert("Cadastro validado com sucesso!");
+      window.location.href = "../personal/personal-area.html";
+    } else {
+      alert("Por favor, preencha todos os campos.");
+    }
+  });
+});
 
 function openPopup(id) {
   const popup = document.getElementById(`popup-${id}`);
@@ -208,23 +239,18 @@ function reservarSala(id) {
     }),
   })
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`Erro HTTP! status: ${response.status}`);
+      if (!response.ok || (response.success === false && response.message === "Matrícula inválida.")) {
+        alert("Matrícula inválida. Por favor, verifique a matrícula e tente novamente.");
+        return;
       }
-      return response.json();
+      console.log("Agendamento adicionado com sucesso:", data);
+      alert(data.message);
+     
+      console.log(response.json())
     })
-    .then(data => {
-      if (data.success) {
-        console.log("Agendamento adicionado com sucesso:", data);
-        alert(data.message);
-        location.reload();
-      } else {
-        alert(data.message || "Erro desconhecido.");
-      }
-    })
+     
 }
 
- 
 
 
 async function salvarHorarioPersonalizado(sala_id) {
@@ -261,7 +287,7 @@ async function salvarHorarioPersonalizado(sala_id) {
     return;
   }
 
-  // Se não houver conflito, salva o agendamento
+  // Se não houver conflito, tenta salvar o agendamento
   const urlSalvar = `../../php/app/router.php?endpoint=adicionar_agendamento`;
 
   try {
@@ -280,8 +306,12 @@ async function salvarHorarioPersonalizado(sala_id) {
       }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Erro ao salvar: ${response.statusText}`);
+    const responseData = await response.json();
+
+    // Validação para matrícula inválida
+    if (!response.ok || (responseData.success === false && responseData.message === "Matrícula inválida.")) {
+      alert("Matrícula inválida. Por favor, verifique a matrícula e tente novamente.");
+      return;
     }
 
     alert("Agendamento realizado com sucesso!");
@@ -291,7 +321,6 @@ async function salvarHorarioPersonalizado(sala_id) {
     alert("Erro ao realizar o agendamento. Tente novamente.");
   }
 }
-
 
 
 function fetchAndUpdateCards(selectedDate) {

@@ -13,7 +13,7 @@
   <header class="navbar">
     <img src="../assets/icons/logo.png" width="70rem" class="logo"></img>
     <nav>
-      <button id="cfg-button" class="config">Configurador</button>
+      <button id="personal-area">Meus agendamentos</button>
     </nav>
   </header>
 
@@ -85,7 +85,19 @@
       </table>
 
     </div> -->
-    
+
+    <div id="popup-user" class="popup">
+      <div class="popup-content">
+          <h2>Meus agendamentos</h2>
+          <form id="registration-user">
+              <label for="mat-user">Matricula</label>
+              <input type="text" id="mat-user" placeholder="Matrícula" required>
+              <button type="submit" id="register" class="btn-submit">Entrar</button>
+              <button type="button" class="btn-close" id="close-popup-user">Cancelar</button>
+          </form>
+      </div>
+    </div>
+
     <div id="popup-cfg" class="popup">
       <div class="popup-content">
           <h2>Configurador</h2>
@@ -101,6 +113,10 @@
     </div>      
   </main>
 
+  <footer class="footer">
+    <img src="../assets/icons/config.png" alt="btn-config"  id="cfg-button" class="config">
+  </footer>
+  
   <script src="script.js"></script>
 </body>
 

@@ -422,8 +422,24 @@ nav{
   background-color: #8ecccc;
 }
 
+.footer{
+  display:flex;
+  justify-content: center;
+}
 
-@media screen and (max-width: 768px) {
+#cfg-button{
+
+  vertical-align: middle;
+  width: 32px;
+  aspect-ratio: auto 32 / 32;
+  height: 32px;
+  box-sizing: border-box;
+  overflow: clip;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 1147px) {
   .navbar {
     text-align: center;
   }
