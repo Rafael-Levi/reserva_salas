@@ -119,7 +119,7 @@ class Agendamento
         }
     
         $stmt->bind_param(
-            "ississsi",
+            "issssssi",
             $id_sala,
             $nome_users,
             $funcao,
