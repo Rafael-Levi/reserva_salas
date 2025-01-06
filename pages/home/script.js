@@ -104,38 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const userButton = document.getElementById("personal-area");
-  const userClose = document.getElementById("close-popup-user");
-  const userPopup = document.getElementById("popup-user");
-  const submit = document.getElementById("registration-user")
- 
-  // Abre o pop-up
-  userButton.addEventListener("click", () => {
-    userPopup.style.display = "flex";
-    userPopup.body.style.overflow = "hidden";
-  });
-
-  userClose.addEventListener("click", () => {
-    userPopup.style.display = "none";
-    userPopup.body.style.overflow = "auto"; 
-  });
-
-  // Valida o formulário e redireciona
-    submit.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const mat = document.getElementById("mat-user").value.trim();
-    
-
-    if (mat == 'rafael' ) {
-      window.alert("Cadastro validado com sucesso!");
-      window.location.href = "../personal/personal-area.html";
-    } else {
-      alert("Por favor, preencha todos os campos.");
-    }
-  });
-});
 
 function openPopup(id) {
   const popup = document.getElementById(`popup-${id}`);

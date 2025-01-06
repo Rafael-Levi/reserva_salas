@@ -421,7 +421,10 @@ nav{
 .btn-close:hover {
   background-color: #8ecccc;
 }
-
+a{
+  color: #ffffff;
+  text-decoration: none;
+}
 .footer{
   display:flex;
   justify-content: center;

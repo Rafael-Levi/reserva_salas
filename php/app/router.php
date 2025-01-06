@@ -68,6 +68,15 @@ switch ($endpoint) {
             echo json_encode(["success" => false, "message" => "Método não permitido"]);
         }
         break;
+    
+    case 'listar_reservas_user': // GET: Listar reservas do usuario
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $agendamentoController->ListarReservasUser();
+        }else{
+            http_response_code(405);
+            echo json_encode(["success" => false, "message" => "Método não permitido"]);
+        }
+        break;
 
     case 'verificar_horario': // GET: Verificar se ja existe um horario
         if($_SERVER['REQUEST_METHOD'] === 'GET'){

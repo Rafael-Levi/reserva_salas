@@ -155,6 +155,7 @@ function atualizarStatus() {
         statusTexto = "Pendente";
       } else {
         statusTexto = "Pendente";
+        row.style.backgroundColor = "#dd614b";
       }
     } else if (status === "1") {
       statusTexto = "Presente";

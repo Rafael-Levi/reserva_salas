@@ -31,6 +31,61 @@ class AgendamentoController
         echo json_encode($this->agendamento->listarReservas());   
     }
 
+    function listarReservasUser()
+    {
+        // Obtém a matrícula da query string
+        $matricula = $_GET['matricula'] ?? null;
+    
+        if (!$matricula) {
+            echo json_encode(["success" => false, "message" => "Dados incompletos ou inválidos fornecidos."]);
+            return;
+        }
+    
+        // URL da API externa com a matrícula
+        $matUrl = "http://ceneged150536.protheus.cloudtotvs.com.br:1739/rest/fluigepi/getSRA?RA_MAT=$matricula";
+    
+        // Configuração do cURL para consultar a API externa
+        $ch = curl_init($matUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Basic YWRtaW46QEAyMDI0Y25n',
+        ]);
+    
+        // Chamada à API
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+    
+        if (curl_errno($ch)) {
+            echo json_encode(["success" => false, "message" => "Erro na requisição cURL: " . curl_error($ch)]);
+            return;
+        }
+    
+        if ($httpCode !== 200) {
+            echo json_encode(["success" => false, "message" => "Erro HTTP na API externa: código $httpCode"]);
+            return;
+        }
+    
+        $apiData = json_decode($response, true);
+    
+        // Valida a estrutura do JSON retornado
+        if (!$apiData || !isset($apiData['FUNCIONARIOS'][0]['RA_MAT'])) {
+            echo json_encode(["success" => false, "message" => "Matrícula inválida."]);
+            return;
+        }
+    
+        // Chama a função listarReservasUser do Model e retorna os dados
+        try {
+            $reservas = $this->agendamento->listarReservasUser($matricula);
+            echo json_encode(["success" => true, "reservas" => $reservas]);
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Erro ao listar reservas: " . $e->getMessage()]);
+        }
+    }
+    
+
+
     public function verificarHorario() {
         $id_sala = isset($_GET['sala_id']) ? intval($_GET['sala_id']) : 0;
         $data_agendamento = isset($_GET['data_agendamento']) ? $_GET['data_agendamento'] : null;

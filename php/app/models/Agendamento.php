@@ -51,6 +51,41 @@ class Agendamento
 
     }
 
+    public function listarReservasUser($matricula)
+    {
+        $sql = "SELECT agendamentos.id,
+                agendamentos.nome_users,
+                agendamentos.data_agendamento,
+                agendamentos.horario_inicio,
+                agendamentos.horario_fim, 
+                agendamentos.status,
+                salas.nome_salas
+                FROM agendamentos
+                LEFT JOIN salas 
+                ON agendamentos.id_sala = salas.id
+                WHERE CONCAT(agendamentos.data_agendamento, ' ', agendamentos.horario_fim) > NOW()
+                AND agendamentos.matricula = ? limit 100;";
+        
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar a query: " . $this->conn->error);
+        }
+    
+        $stmt->bind_param("s", $matricula);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $reservas = [];
+        while ($row = $result->fetch_assoc()) {
+            $reservas[] = $row;
+        }
+    
+        $stmt->close();
+        return $reservas;
+    }
+
+    
+
     public function verificarHorario($id_sala, $data_agendamento, $horario_inicio, $horario_fim) 
     {
         $sql = "SELECT COUNT(*) AS total FROM agendamentos 

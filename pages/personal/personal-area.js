@@ -1,75 +1,119 @@
-const url = "../../php/app/router.php?endpoint=listar_reservas";
+document.addEventListener("DOMContentLoaded", () => {
+  const userClose = document.getElementById("close-popup-user");
+  const submit = document.getElementById("registration-user");
 
+  userClose.addEventListener("click", () => {
+    window.location.href = "../home/index.html";
+  });
 
-fetch(url)
-  .then(response => response.json())
-  .then(reservas => {
-    console.log("Agendamentos recebidos:", reservas);
+  submit.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-    const container = document.getElementById("content-agendamento");
+    const mat = document.getElementById("mat-user").value.trim();
 
-    // Verifica se existem reservas
-    if (reservas.length === 0) {
-      container.innerHTML = "<tr><td colspan='5'>Nenhuma reserva cadastrada.</td></tr>";
+    if (!mat) {
+      alert("Por favor, preencha a matrícula.");
       return;
     }
 
-    // Limpa o conteúdo do tbody
-    container.innerHTML = "";
+    const url = `../../php/app/router.php?endpoint=listar_reservas_user&matricula=${encodeURIComponent(mat)}`;
 
-    // Itera sobre as reservas e cria as linhas da tabela
-    reservas.forEach(reserva => {
-      const row = document.createElement("tr");
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      row.innerHTML = `
-        <p class="id-${reserva.id}" style="display: none;">${reserva.id}</p>
-        <td>${reserva.nome_salas}</td>
-        <td id="data-agendamento-${reserva.id}">${reserva.data_agendamento}</td>
-        <td>${reserva.horario_inicio} - ${reserva.horario_fim}</td>
-        <td>${reserva.nome_users}</td>
-        <td status="${reserva.status}"></td>
-        <td class="actions">
-          <button class="btn-edit" id="btn-edit-${reserva.id}" onclick="openPopup(${reserva.id})">Editar</button>
-          <button onclick="excluir_registro(${reserva.id})" class="btn-excluir" id="btn-excluir=${reserva.id}">Excluir</button>
-        </td>
+      if (!response.ok) {
+        throw new Error("Erro na requisição");
+      }
 
+      const data = await response.json();
+      console.log("Resposta da API:", data);
 
-        <div id="popup-${reserva.id}" class="popup">
-          <div class="popup-content">
-            <h3>Alterar Reserva</h3>
-            <form id="popup-form">
-              <label for="sala-nome">Nome da Sala:</label>
-              <select id="sala-nome" name="sala-nome" required>
-                <option value="" disabled selected>Selecione uma sala</option>
-                <option value="Eclipse">Eclipse</option>
-                <option value="Beira-mar">Beira-mar</option>
-                <option value="Por do sol">Por do sol</option>
-                <option value="Energia positiva">Energia positiva</option>
-                <option value="Inovar">Inovar</option>
-                <option value="Sala treinamento">Sala treinamento</option>
-              </select>
-        
-              <label for="horario-inicio">Horário de Início:</label>
-              <input type="time" id="horario-inicio" name="horario-inicio" required>
-        
-              <label for="horario-fim">Horário de Fim:</label>
-              <input type="time" id="horario-fim" name="horario-fim" required>
-        
-              <div class="popup-buttons">
-                <button type="submit" class="btn-confirm" onclick="alterarReserva(${reserva.id})">Confirmar</button>
-                <button type="button" class="btn-cancel" onclick="closePopup(${reserva.id})">Cancelar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      `;
+      if (data.success === false) {
+        alert(data.message || "Erro ao verificar a matrícula.");
+        return;
+      }
 
-      container.appendChild(row);
-    });
-    atualizarStatus();
-  })
-  .catch(error => {
-    console.error("Erro ao carregar as reservas:", error);
-    const container = document.getElementById("content-agendamento");
-    container.innerHTML = "<tr><td colspan='5'>Erro ao carregar as reservas. Tente novamente mais tarde.</td></tr>";
+      alert("Acesso validado com sucesso!");
+      closePopup(); // Fecha a popup
+      carregarReservas(data.reservas || []);
+    } catch (error) {
+      console.error("Erro ao verificar a matrícula:", error);
+      alert("Erro ao verificar a matrícula. Tente novamente.");
+    }
   });
+});
+
+function closePopup() {
+  const popup = document.getElementById("popup-user");
+  if (popup) {
+    popup.style.display = "none";
+  }
+}
+
+function carregarReservas(reservas) {
+  const container = document.getElementById("content-agendamento");
+
+  if (reservas.length === 0) {
+    container.innerHTML = "<tr><td colspan='5'>Nenhuma reserva cadastrada.</td></tr>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  reservas.forEach(reserva => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <p class="id-${reserva.id}" style="display: none;">${reserva.id}</p>
+      <td>${reserva.nome_salas}</td>
+      <td id="data-agendamento-${reserva.id}">${reserva.data_agendamento}</td>
+      <td>${reserva.horario_inicio} - ${reserva.horario_fim}</td>
+      <td>${reserva.nome_users}</td>
+      <td status="${reserva.status}"></td>
+    `;
+    container.appendChild(row);
+  });
+
+  atualizarStatus();
+}
+
+function atualizarStatus() {
+  const rows = document.querySelectorAll('#content-agendamento tr');
+
+  rows.forEach(row => {
+    const idEl = row.querySelector('p[class^="id-"]');
+    const reservaId = idEl.className.split('-')[1];
+    const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
+    const horarioCell = row.querySelector('td:nth-child(3)');
+    const statusCell = row.querySelector('td[status]');
+
+    if (!dataAgendamentoEl || !horarioCell || !statusCell) {
+      console.error(`Dados incompletos para a reserva ID ${reservaId}`);
+      return;
+    }
+
+    const dataAgendamento = dataAgendamentoEl.textContent.trim();
+    const [horarioInicio, horarioFim] = horarioCell.textContent.split(" - ").map(h => h.trim());
+    const agora = new Date();
+    const fimAgendamento = new Date(`${dataAgendamento}T${horarioFim}`);
+
+    let statusTexto = "";
+    if (statusCell.getAttribute('status') === "0") {
+      if (fimAgendamento > agora) {
+        statusTexto = "Pendente";
+      } else {
+        statusTexto = "Ausente";
+        row.style.backgroundColor = "#e29385da";
+      }
+    } else {
+      statusTexto = "Presente";
+      row.style.backgroundColor = "#d4edda";
+    }
+
+    statusCell.textContent = statusTexto;
+  });
+}
