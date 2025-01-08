@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "agendamento_salas";
+$dbname = "dbsalas";
 
 // Criação da conexão
 $conn = new mysqli($servername, $username, $password, $dbname);

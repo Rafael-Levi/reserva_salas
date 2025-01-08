@@ -17,7 +17,7 @@ nav{
   padding: 1rem 2rem;
   background-color: #212121;
 }
-
+ 
 .navbar .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -222,7 +222,7 @@ nav{
   color: white;
   padding: 0.8rem 1.2rem;
   height: auto;
-  width: auto;
+  width: -webkit-fill-available;
   border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
@@ -373,23 +373,30 @@ nav{
   max-width: 400px;
 }
 
-.popup-content h2 {
-  margin-bottom: 1rem;
+.popup-content form .form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.popup-content form label {
-  display: block;
-  margin: 1rem 0 0.5rem;
+.popup-content form .form-group {
+  flex: 1;
 }
 
 .popup-content form input {
-  width: 100%;
-  padding: 0.5rem;
+  width: 80%;
+  padding: 0.4rem; /* Reduzido */
   margin-bottom: 1rem;
   border: 1px solid #8ecccc;
   border-radius: 5px;
   background-color: #3a4042;
   color: #ffffff;
+}
+
+.popup-content form label {
+  font-size: 0.9rem; /* Ligeiramente menor */
+  margin-bottom: 0.3rem;
+  display: block;
 }
 
 .btn-submit {
@@ -416,6 +423,7 @@ nav{
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  
 }
 
 .btn-close:hover {

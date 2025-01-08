@@ -177,7 +177,6 @@ function reservarSala(id) {
     return;
   }
 
-  const nome_salas = document.getElementsByClassName("card-title")[0].textContent;
   const sala_id = button.getAttribute("data-sala-id");
   const horario_inicio = button.getAttribute("data-ini");
   const horario_fim = button.getAttribute("data-fin");
@@ -394,17 +393,26 @@ fetch(urlSalas)
             </button>
             
 
-          <div id="popup-${sala.id}${index}" class="popup">
-            <div class="popup-content">
-              <h2>Reservar horário</h2>
-              <form>
+        <div id="popup-${sala.id}${index}" class="popup">
+          <div class="popup-content">
+            <h2>Reservar horário</h2>
+            <form>
+              <div class="form-row">
+                <div class="form-group">
                   <label for="matrícula">Matrícula</label>
                   <input type="text" id="mat-${sala.id}${index}" placeholder="Digite sua matrícula" required>
-                  <button type="submit" class="btn-submit" onclick="reservarSala(${sala.id}${index})">Confirmar Reserva</button>
-                  <button type="button" class="btn-close" onclick="closePopup(${sala.id}${index})">Cancelar</button>
-              </form>
-            </div>
+                </div>
+                <div class="form-group">
+                  <label for="num-part">Número de participantes</label>
+                  <input type="number" id="num-part-${sala.id}${index}" placeholder="Participantes" min="2" required>
+                </div>
+              </div>
+              <button type="submit" class="btn-submit" onclick="reservarSala(${sala.id}${index})">Confirmar Reserva</button>
+              <button type="button" class="btn-close" onclick="closePopup(${sala.id}${index})">Cancelar</button>
+            </form>
           </div>
+        </div>
+
           `).join('')}
 
 <div class="div-per">
