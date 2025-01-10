@@ -404,7 +404,7 @@ fetch(urlSalas)
                 </div>
                 <div class="form-group">
                   <label for="num-part">Número de participantes</label>
-                  <input type="number" id="num-part-${sala.id}${index}" placeholder="Participantes" min="2" required>
+                  <input type="number" id="num-part-${sala.id}${index}" placeholder="Participantes" min="2" max="6" required>
                 </div>
               </div>
               <button type="submit" class="btn-submit" onclick="reservarSala(${sala.id}${index})">Confirmar Reserva</button>

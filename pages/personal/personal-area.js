@@ -73,47 +73,122 @@ function carregarReservas(reservas) {
       <td id="data-agendamento-${reserva.id}">${reserva.data_agendamento}</td>
       <td>${reserva.horario_inicio} - ${reserva.horario_fim}</td>
       <td>${reserva.nome_users}</td>
-      <td status="${reserva.status}"></td>
+      <td class="status" style="display: none;">${reserva.status}</td>
+      <td class="actions">
+        <button class="checkin-btn" data-id="${reserva.id}">Check-in</button>
+        <button class="delete-btn" data-id="${reserva.id}">Excluir</button>
+      </td>
     `;
     container.appendChild(row);
   });
 
+  configurarAcoes();
   atualizarStatus();
 }
 
-function atualizarStatus() {
+function configurarAcoes() {
   const rows = document.querySelectorAll('#content-agendamento tr');
 
   rows.forEach(row => {
-    const idEl = row.querySelector('p[class^="id-"]');
-    const reservaId = idEl.className.split('-')[1];
-    const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
-    const horarioCell = row.querySelector('td:nth-child(3)');
-    const statusCell = row.querySelector('td[status]');
+    const checkinBtn = row.querySelector('.checkin-btn');
+    const deleteBtn = row.querySelector('.delete-btn');
 
-    if (!dataAgendamentoEl || !horarioCell || !statusCell) {
-      console.error(`Dados incompletos para a reserva ID ${reservaId}`);
-      return;
-    }
+    checkinBtn.addEventListener('click', () => {
+      const idEl = row.querySelector('p[class^="id-"]');
+      const reservaId = idEl.className.split('-')[1];
+      const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
 
-    const dataAgendamento = dataAgendamentoEl.textContent.trim();
-    const [horarioInicio, horarioFim] = horarioCell.textContent.split(" - ").map(h => h.trim());
-    const agora = new Date();
-    const fimAgendamento = new Date(`${dataAgendamento}T${horarioFim}`);
+      const dataAgendamento = dataAgendamentoEl.textContent.trim();
 
-    let statusTexto = "";
-    if (statusCell.getAttribute('status') === "0") {
-      if (fimAgendamento > agora) {
-        statusTexto = "Pendente";
+      const agora = new Date();
+      const dataHoje = agora.toISOString().slice(0, 10); // Formato: YYYY-MM-DD
+
+      const status = document.getElementsByClassName('status')
+      // Verificar se o horário atual está dentro do intervalo e se a data é a de hoje
+      if (dataAgendamento === dataHoje) {
+        console.log(`Check-in para a reserva ID: ${reservaId}`);
+        checkinUrl = `../../php/app/router.php?endpoint=check&id=${reservaId}`;
+
+
+        fetch(checkinUrl, {
+          method: "PUT", 
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erro HTTP! Status: ${response.status}`);
+            }
+            return response.json(); // Lê a resposta em JSON
+          })
+          .then((data) => {
+            if (data.success) { // Supondo que o endpoint retorna um JSON com {success: true}
+              alert("Check-in realizado com sucesso!");
+              row.querySelector('.actions').innerHTML = ""; 
+              console.log(`Check-in válido realizado para a reserva ID: ${reservaId}`);
+              if(status === 1){
+                row.style.backgroundColor = "#d4edda";
+              }
+              
+            } else {
+              alert("Erro ao fazer check-in");
+            }
+          })
+          .catch((error) => {
+            console.error("Erro ao fazer check-in:", error);
+            alert("Erro ao fazer check-in. Tente novamente.");
+          });
+
+
       } else {
-        statusTexto = "Ausente";
-        row.style.backgroundColor = "#e29385da";
+        alert("Check-in inválido! Fora do horário do agendamento.");
+        console.log(`Check-in inválido para a reserva ID: ${reservaId}`);
       }
-    } else {
-      statusTexto = "Presente";
-      row.style.backgroundColor = "#d4edda";
-    }
+    });
 
-    statusCell.textContent = statusTexto;
+    deleteBtn.addEventListener('click', () => {
+      const reservaId = deleteBtn.getAttribute('data-id');
+      console.log(`Reserva ID: ${reservaId} excluída.`);
+      row.remove(); // Remove a linha da tabela
+    });
   });
 }
+
+function atualizarStatus(){
+  const status = document.getElementsByClassName('status')
+  if(status === 1){
+    row.style.backgroundColor = "#d4edda";
+  }
+
+}
+
+// Event listeners para os botões
+document.getElementById("content-agendamento").addEventListener("click", function(event) {
+  if (event.target.classList.contains("delete-btn")) {
+    const reservaId = event.target.getAttribute("data-id");
+    const excluirUrl = `../../php/app/router.php?endpoint=excluir_agendamento&id=${reservaId}`;
+
+    // Faz a requisição para excluir o agendamento
+    fetch(excluirUrl, {
+      method: "DELETE", // Indica o método DELETE para uma exclusão lógica
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Erro HTTP! Status: ${response.status}`);
+        }
+        return response.json(); // Lê a resposta em JSON
+      })
+      .then((data) => {
+        if (data.success) { // Supondo que o endpoint retorna um JSON com {success: true}
+          alert("Agendamento excluído com sucesso!");
+          location.reload(); // Recarrega a página
+        } else {
+          alert("Erro ao excluir o agendamento.");
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao excluir o agendamento:", error);
+        alert("Ocorreu um erro ao tentar excluir o agendamento. Tente novamente.");
+      });
+    
+  }
+});
+

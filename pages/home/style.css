@@ -434,9 +434,15 @@ a{
   text-decoration: none;
 }
 .footer{
-  display:flex;
-  justify-content: center;
+  background-color: #212121; /* Altere conforme a paleta desejada */
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
+
 
 #cfg-button{
 
