@@ -92,65 +92,78 @@ function configurarAcoes() {
   rows.forEach(row => {
     const checkinBtn = row.querySelector('.checkin-btn');
     const deleteBtn = row.querySelector('.delete-btn');
+    const status = row.querySelector('.status'); 
+    const actions = row.querySelector('.actions');
 
-    checkinBtn.addEventListener('click', () => {
-      const idEl = row.querySelector('p[class^="id-"]');
-      const reservaId = idEl.className.split('-')[1];
-      const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
+    if (status && status.textContent.trim() === '1') {
+      // Oculta os botões se o status for 1
+      checkinBtn.style.display = 'none';
+      actions.style.padding = 'initial';
+      deleteBtn.style.display = 'none';
+      row.style.backgroundColor = "#d4edda";
+    } else {
+      // Configura os eventos apenas se o status não for 1
+      checkinBtn.addEventListener('click', () => {
+        const idEl = row.querySelector('p[class^="id-"]');
+        const reservaId = idEl.className.split('-')[1];
+        const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
+        const dataAgendamento = dataAgendamentoEl.textContent.trim();
 
-      const dataAgendamento = dataAgendamentoEl.textContent.trim();
+        const agora = new Date();
+        const dataHoje = agora.toISOString().slice(0, 10); // Formato: YYYY-MM-DD
 
-      const agora = new Date();
-      const dataHoje = agora.toISOString().slice(0, 10); // Formato: YYYY-MM-DD
+        if (dataAgendamento === dataHoje) {
+          console.log(`Check-in para a reserva ID: ${reservaId}`);
+          const checkinUrl = `../../php/app/router.php?endpoint=check`;
 
-      const status = document.getElementsByClassName('status')
-      // Verificar se o horário atual está dentro do intervalo e se a data é a de hoje
-      if (dataAgendamento === dataHoje) {
-        console.log(`Check-in para a reserva ID: ${reservaId}`);
-        checkinUrl = `../../php/app/router.php?endpoint=check&id=${reservaId}`;
+          payload = {
+            id: reservaId,
+          };
 
-
-        fetch(checkinUrl, {
-          method: "PUT", 
-        })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`Erro HTTP! Status: ${response.status}`);
-            }
-            return response.json(); // Lê a resposta em JSON
+          fetch(checkinUrl, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
           })
-          .then((data) => {
-            if (data.success) { // Supondo que o endpoint retorna um JSON com {success: true}
-              alert("Check-in realizado com sucesso!");
-              row.querySelector('.actions').innerHTML = ""; 
-              console.log(`Check-in válido realizado para a reserva ID: ${reservaId}`);
-              if(status === 1){
-                row.style.backgroundColor = "#d4edda";
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`Erro HTTP! Status: ${response.status}`);
               }
-              
-            } else {
-              alert("Erro ao fazer check-in");
-            }
-          })
-          .catch((error) => {
-            console.error("Erro ao fazer check-in:", error);
-            alert("Erro ao fazer check-in. Tente novamente.");
-          });
+              return response.json();
+            })
+            .then(data => {
+              if (data.success) {
+                alert("Check-in realizado com sucesso!");
+                row.querySelector('.actions').innerHTML = "";
+                row.style.backgroundColor = "#d4edda"; // Muda a cor para indicar sucesso
+              } else {
+                alert("Erro ao fazer check-in");
+        }
+            })
+            .catch(error => {
+              console.error("Erro ao fazer check-in:", error);
+              alert("Erro ao fazer check-in. Tente novamente.");
+            });
+        }else{
+          alert(`Espere até a data do agendamento (${dataAgendamento}) para fazer check-in.`)
+        }
+      });
 
-
-      } else {
-        alert("Check-in inválido! Fora do horário do agendamento.");
-        console.log(`Check-in inválido para a reserva ID: ${reservaId}`);
-      }
-    });
-
-    deleteBtn.addEventListener('click', () => {
-      const reservaId = deleteBtn.getAttribute('data-id');
-      console.log(`Reserva ID: ${reservaId} excluída.`);
-      row.remove(); // Remove a linha da tabela
-    });
+      deleteBtn.addEventListener('click', () => {
+        const reservaId = deleteBtn.getAttribute('data-id');
+        console.log(`Reserva ID: ${reservaId} excluída.`);
+        row.remove();
+      });
+    }
   });
 }
+
+
+
+    
+
 
 function atualizarStatus(){
   const status = document.getElementsByClassName('status')

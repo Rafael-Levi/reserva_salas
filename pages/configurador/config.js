@@ -49,21 +49,18 @@ function closePopup(id) {
 
 
 function alterarReserva(reservaId) {
-  // Obtém os valores dos campos do formulário
   const salaNome = document.querySelector(`#popup-${reservaId} #sala-nome`).value;
   const horarioInicio = document.querySelector(`#popup-${reservaId} #horario-inicio`).value;
   const horarioFim = document.querySelector(`#popup-${reservaId} #horario-fim`).value;
 
-  // Obtém a data de agendamento da linha correspondente à reserva
   const dataAgendamento = document.getElementById(`data-agendamento-${reservaId}`).textContent;
 
-  // Valida se todos os campos foram preenchidos
+ 
   if (!salaNome || !horarioInicio || !horarioFim || !dataAgendamento) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
 
-  // Mapeamento dos nomes das salas para seus respectivos IDs (caso necessário)
   const salaMap = {
     "Eclipse": 1,
     "Beira-mar": 2,
@@ -73,17 +70,15 @@ function alterarReserva(reservaId) {
     "Sala treinamento": 6,
   };
 
-  // Converte o nome da sala para o ID
   const salaId = salaMap[salaNome];
   if (!salaId) {
     alert("Sala selecionada é inválida.");
     return;
   }
 
-  // Define a URL do endpoint
   const endpoint = `../../php/app/router.php?endpoint=editar_agendamento`;
 
-  // Monta o payload da requisição
+  
   const payload = {
     id: reservaId,
     id_sala: salaId,
@@ -92,7 +87,6 @@ function alterarReserva(reservaId) {
     horario_fim: horarioFim,
   };
 
-  // Envia a requisição PUT para o endpoint
   fetch(endpoint, {
     method: "PUT",
     headers: {
@@ -104,8 +98,8 @@ function alterarReserva(reservaId) {
     .then((result) => {
       if (result.success) {
         alert("Reserva alterada com sucesso!");
-        closePopup(reservaId); // Fecha o popup após sucesso
-        // Atualizar a UI ou realizar outra ação necessária
+        closePopup(reservaId); 
+        
         location.reload();
       } else {
         alert(`Erro ao alterar reserva: ${result.message}`);
@@ -118,51 +112,38 @@ function alterarReserva(reservaId) {
 }
 
 function atualizarStatus() {
-  // Seleciona todas as linhas da tabela no tbody #content-agendamento
   const rows = document.querySelectorAll('#content-agendamento tr');
 
   rows.forEach(row => {
-    // Identifica os elementos relevantes da linha
     const idEl = row.querySelector('p[class^="id-"]');
     const reservaId = idEl.className.split('-')[1]; // Extrai o ID da reserva
     const dataAgendamentoEl = row.querySelector(`#data-agendamento-${reservaId}`);
-    const horarioCell = row.querySelector('td:nth-child(3)');
     const statusCell = row.querySelector('td[status]');
 
-    // Valida se todos os dados necessários estão presentes
-    if (!dataAgendamentoEl || !horarioCell || !statusCell) {
+    if (!dataAgendamentoEl || !statusCell) {
       console.error(`Dados incompletos para a reserva ID ${reservaId}`);
       return;
     }
 
-    // Extrai valores dos elementos
-    const dataAgendamento = dataAgendamentoEl.textContent.trim(); // Formato esperado: YYYY-MM-DD
-    const [horarioInicio, horarioFim] = horarioCell.textContent.split(" - ").map(h => h.trim());
-    const status = statusCell.getAttribute('status'); // Valor esperado: "0" ou "1"
+    const dataAgendamento = dataAgendamentoEl.textContent.trim(); 
+    const status = statusCell.getAttribute('status'); 
 
-    // Obtém a data e hora atuais
+   
     const agora = new Date();
-
-    // Cria objetos Date para comparação
-    const fimAgendamento = new Date(`${dataAgendamento}T${horarioFim}`);
 
     console.log(`Reserva ID ${reservaId}: Data Agendamento ${dataAgendamento}, Hora Fim ${horarioFim}, Agora ${agora}`);
 
-    // Determina o status com base na lógica fornecida
+   
     let statusTexto = "";
     if (status === "0") {
-      if (fimAgendamento > agora) {
-        statusTexto = "Pendente";
-      } else {
         statusTexto = "Pendente";
         row.style.backgroundColor = "#e29385da";
-      }
     } else if (status === "1") {
       statusTexto = "Presente";
       row.style.backgroundColor = "#d4edda";
     }
 
-    // Atualiza o texto do status na célula correspondente
+    
     statusCell.textContent = statusTexto;
   });
 }

@@ -433,10 +433,10 @@ fetch(urlSalas)
       <tbody>
         <tr>
           <td>
-            <input type="time" id="inicio-perso-${sala.id}" required>
+            <input type="time" id="inicio-perso-${sala.id}" required step="3600">
           </td>
           <td>
-            <input type="time" id="fim-perso-${sala.id}" required>
+            <input type="time" id="fim-perso-${sala.id}" required step="3600">
           </td>
         </tr>
         <tr>
